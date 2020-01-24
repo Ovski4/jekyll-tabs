@@ -18,9 +18,8 @@
     text-align: center;
     padding: 9px 20px;
     color: #999;
-    border-bottom: 2px solid 
-    transparent;
-        border-bottom-color: transparent;
+    border-bottom: 2px solid transparent;
+    border-bottom-color: transparent;
     font-size: 12px;
     text-transform: uppercase;
     transition: color .1s ease-in-out;
