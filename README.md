@@ -116,3 +116,7 @@ hello:
 {% endtabs %}
 
 ````
+
+Here is the result:
+
+![Image of Yaktocat](docs/tabs-example.png)

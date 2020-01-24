@@ -1,6 +1,5 @@
 require 'securerandom'
 require 'erb'
-require 'jekyll-tabs/version'
 
 module Jekyll
     module Tabs
