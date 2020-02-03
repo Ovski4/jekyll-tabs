@@ -57,7 +57,7 @@ Include the script in your layout, for instance in **_layouts_/default.html**
 
 Feel free to style it the way you want. Here is an example.
 
-Create a file called **custom.css** in **public/css** with [this content](docs/tabs.css). Include it in **_include/head.html*
+Create a file called **custom.css** in **public/css** with [this content](docs/tabs.css). Include it in **_include/head.html**
 
 ```html
 <link rel="stylesheet" href="/public/css/custom.css">
