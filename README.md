@@ -1,7 +1,9 @@
 Jekyll Tabs
 ===========
 
-This Jekyll plugin provides tags used to add tabs in your content.
+This Jekyll plugin provides tags used to add tabs in your content. It is heavily inspired from https://github.com/clustergarage/jekyll-code-tabs.
+  * It works with multiple tab panels on the same page
+  * It does not require a specific javascript framework
 
 Installation
 ------------
@@ -120,3 +122,5 @@ hello:
 Here is the result:
 
 ![Image of Yaktocat](docs/tabs-example.png)
+
+Characters before the first space must be the same between tabs of the same scope (log and data-struct in this example). Every characters following will be displayed as the tab label.

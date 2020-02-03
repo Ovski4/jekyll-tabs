@@ -29,7 +29,7 @@ module Jekyll
 
             def initialize(block_name, markup, tokens)
                 super
-                markups = markup.split(' ')
+                markups = markup.split(' ', 2)
                 if markups.length != 2
                     raise SyntaxError.new("Block #{block_name} requires 2 attributes")
                 end
