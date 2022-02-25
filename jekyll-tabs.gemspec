@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'Generate a tabbed interface on top of markup'
   spec.version       = Jekyll::Tabs::VERSION
 
-  spec.authors       = ['Baptiste Bouchereau']
+  spec.authors       = ['Nejc Zdovc', 'Baptiste Bouchereau']
   spec.email         = ['baptiste.bouchereau@gmail.com']
   spec.homepage      = 'https://github.com/ovski4/jekyll-tabs'
   spec.licenses      = ['MIT']
