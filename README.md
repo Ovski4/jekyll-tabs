@@ -10,60 +10,63 @@ Installation
 
 ### Install the plugin
 
-Add this line to your Gemfile:
+Add this line to your `Gemfile`:
 
 ```ruby
 group :jekyll_plugins do
-  
+  # ... other gems
   gem "jekyll-tabs"
 end
 ```
 
-Add in you _config.yml:
+Install the gem by running:
+
+```bash
+bundle install
+```
+
+Then add the gem to the plugin list in your `_config.yml` file:
 
 ```yaml
 plugins:
   - jekyll-tabs
 ```
 
-And then execute:
+### Include the javascript
 
-    $ bundle
-
-and put this in your ``_config.yml`` 
-
-```yaml
-plugins:
-  - jekyll-tabs
-```
-
-### Add the javascripts
-
-Copy the content of [this file](docs/tabs.js) in your public folder, let's say **public/js/tabs.js**.
-Include the script in your layout, for instance in **_layouts_/default.html**
+Copy the content of [this file](https://raw.githubusercontent.com/Ovski4/jekyll-tabs/master/docs/tabs.js) in your public folder (for example **assets/js/tabs.js**), and include the script in your layout (such as **_layouts_/default.html**).
 
 ```html
 <!DOCTYPE html>
 <html lang="en-us">
-  {% include head.html %}
-  <body>
-      {{ content }}
-    <script src="/public/js/tabs.js"></script>
-  </body>
+    <head>
+        ...
+    </head>
+    <body>
+        {{ content }}
+        <script src="/assets/js/tabs.js"></script>
+    </body>
 </html>
 ```
 
-### Add some style to the tabs
+### Style the tabs
 
-Feel free to style it the way you want. Here is an example.
+Feel free to style it the way you want. You can use [this existing css file](https://raw.githubusercontent.com/Ovski4/jekyll-tabs/master/docs/tabs.css) to get started.
 
-Create a file called **custom.css** in **public/css** with [this content](docs/tabs.css). Include it in **_include/head.html**
+Paste the content in a file (for example **assets/css/custom.css**), and include it in the html <head> tag of your jekyll website.
 
 ```html
-<link rel="stylesheet" href="/public/css/custom.css">
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        ...
+        <link rel="stylesheet" href="/assets/css/custom.css">
+    </head>
+    <body>
+        ....
 ```
 
-That's it
+You are all set! Let's see the markup.
 
 Usage
 -----
@@ -121,6 +124,15 @@ hello:
 
 Here is the result:
 
-![Image of Yaktocat](docs/tabs-example.png)
+![Example to demo how tabs will render](docs/tabs-example.png)
 
-Characters before the first space must be the same between tabs of the same scope (log and data-struct in this example). Every characters following will be displayed as the tab label.
+In the following markup:
+
+```
+{% tab data-struct Some label here %}
+```
+
+* The first word after the `tab` keyword (`data-struct` here) is used to group tabs.
+* All words after will be displayed as the tab label.
+
+Which is why in the above example, we have to groups of tabs: `data-struct` and `log`.
