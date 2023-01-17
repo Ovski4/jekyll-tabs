@@ -31,18 +31,18 @@
     border-color: #1e87f0;
 }
 
-.tab li a {
+.tab > li > a {
     text-decoration: none;
-        cursor: pointer;
+    cursor: pointer;
 }
 
-.tab-content{
+.tab-content {
     padding: 0;
 }
 
-.tab-content li {
+.tab-content > li {
     display: none;
 }
-.tab-content li.active {
+.tab-content > li.active {
     display: initial;
 }
