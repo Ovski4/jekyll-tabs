@@ -3,6 +3,8 @@
  */
 const jekyllTabsConfiguration = {
     syncTabsWithSameLabels: false,
+    addCopyToClipboardButton: false,
+    copyToClipboardButtonHtml: '<button>Copy</button>',
 };
 
 /**
@@ -84,25 +86,86 @@ const handleTabClicked = function(link) {
     liTab.classList.add('active');
 }
 
+/**
+ * Create a javascript element from html markup.
+ */
+const createElementFromHtml = function(html) {
+    const template = document.createElement('template');
+    template.innerHTML = html.trim();
+
+    return template.content.firstChild;
+}
+
+/**
+ * Copy the given text in the clipboard.
+ *
+ * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
+ */
+const copyToClipboard = function(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text);
+    } else {
+        // Use the 'out of viewport hidden text area' trick
+        const textArea = document.createElement("textarea");
+        textArea.value = text;
+
+        // Move textarea out of the viewport so it's not visible
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+
+        document.body.prepend(textArea);
+        textArea.select();
+
+        try {
+            document.execCommand('copy');
+        } catch (error) {
+            console.error(error);
+        } finally {
+            textArea.remove();
+        }
+    };
+}
+
 window.addEventListener('load', function () {
     const tabLinks = document.querySelectorAll('ul.tab > li > a');
 
     Array.prototype.forEach.call(tabLinks, function(link) {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
 
-      link.addEventListener('click', function (event) {
-          event.preventDefault();
+            handleTabClicked(link);
 
-          handleTabClicked(link);
+            if (jekyllTabsConfiguration.syncTabsWithSameLabels) {
+                const linksWithSameName = findElementsContaining('a', link.textContent);
 
-          if (jekyllTabsConfiguration.syncTabsWithSameLabels) {
-              const linksWithSameName = findElementsContaining('a', link.textContent);
-
-              for(let i = 0; i < linksWithSameName.length; i++) {
-                  if (linksWithSameName[i] !== link) {
-                      handleTabClicked(linksWithSameName[i]);
-                  }
-              }
-          }
-      }, false);
+                for(let i = 0; i < linksWithSameName.length; i++) {
+                    if (linksWithSameName[i] !== link) {
+                        handleTabClicked(linksWithSameName[i]);
+                    }
+                }
+            }
+        }, false);
     });
+
+    if (jekyllTabsConfiguration.addCopyToClipboardButton) {
+        const preElements = document.querySelectorAll('ul.tab-content > li pre');
+
+        for(let i = 0; i < preElements.length; i++) {
+            const preElement = preElements[i];
+            const preParentNode = preElement.parentNode;
+            preParentNode.style.position = 'relative';
+
+            const button = createElementFromHtml(jekyllTabsConfiguration.copyToClipboardButtonHtml);
+            preParentNode.appendChild(button);
+
+            button.style.top = '0px';
+            button.style.right = '0px';
+            button.style.position = 'absolute';
+
+            button.addEventListener('click', function () {
+                copyToClipboard(preElement.innerText);
+            });
+        }
+    }
+
 });
