@@ -42,27 +42,27 @@ window.addEventListener('load', function () {
     const tabLinks = document.querySelectorAll('ul.tab > li > a');
 
     Array.prototype.forEach.call(tabLinks, function(link) {
-      link.addEventListener('click', function (event) {
-          event.preventDefault();
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
 
-          liTab = link.parentNode;
-          ulTab = liTab.parentNode;
-          liPositionInUl = getChildPosition(liTab);
+            liTab = link.parentNode;
+            ulTab = liTab.parentNode;
+            liPositionInUl = getChildPosition(liTab);
 
-          if (liTab.className.includes('active')) {
-              return;
-          }
+            if (liTab.className.includes('active')) {
+                return;
+            }
 
-          tabContentId = ulTab.getAttribute('data-tab');
-          tabContentElement = document.getElementById(tabContentId);
+            tabContentId = ulTab.getAttribute('data-tab');
+            tabContentElement = document.getElementById(tabContentId);
 
-          // Remove all "active" classes first.
-          removeActiveClasses(ulTab);
-          removeActiveClasses(tabContentElement);
+            // Remove all "active" classes first.
+            removeActiveClasses(ulTab);
+            removeActiveClasses(tabContentElement);
 
-          // Then add back active classes depending on the tab (ul element) that was clicked on.
-          tabContentElement.querySelectorAll('ul > li')[liPositionInUl].classList.add('active');
-          liTab.classList.add('active');
-      }, false);
+            // Then add back active classes depending on the tab (ul element) that was clicked on.
+            tabContentElement.querySelectorAll('ul > li')[liPositionInUl].classList.add('active');
+            liTab.classList.add('active');
+        }, false);
     });
 });
