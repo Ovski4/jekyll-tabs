@@ -1,4 +1,11 @@
 /**
+ * Configure the tabs behavior.
+ */
+const jekyllTabsConfiguration = {
+	syncTabsWithSameNames: false,
+};
+
+/**
  * Remove all "active" classes on li elements that belong to the given ul element.
  */
 const removeActiveClasses = function (ulElement) {
@@ -78,7 +85,6 @@ const handleTabClicked = function(link) {
 }
 
 window.addEventListener('load', function () {
-	const syncTabsWithSameNames = false;
     const tabLinks = document.querySelectorAll('ul.tab > li > a');
 
     Array.prototype.forEach.call(tabLinks, function(link) {
@@ -88,7 +94,7 @@ window.addEventListener('load', function () {
 
           handleTabClicked(link);
 
-          if (syncTabsWithSameNames) {
+          if (jekyllTabsConfiguration.syncTabsWithSameNames) {
               const linksWithSameName = findElementsContaining('a', link.textContent);
 
               for(let i = 0; i < linksWithSameName.length; i++) {
