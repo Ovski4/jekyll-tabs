@@ -136,3 +136,10 @@ In the following markup:
 * All words after will be displayed as the tab label.
 
 Which is why in the above example, we have to groups of tabs: `data-struct` and `log`.
+
+Additional configuration
+------------------------
+
+### Sync tabs with similar names
+
+If you wish to get all tabs with the same name synced, set the `syncTabsWithSameNames` value to **true** in the `jekyllTabsConfiguration` object.
