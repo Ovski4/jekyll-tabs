@@ -142,4 +142,4 @@ Additional configuration
 
 ### Sync tabs with similar names
 
-If you wish to get all tabs with the same name synced, set the `syncTabsWithSameNames` value to **true** in the `jekyllTabsConfiguration` object.
+If you wish to get all tabs with the same label synced, set the `syncTabsWithSameNames` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L5)).
