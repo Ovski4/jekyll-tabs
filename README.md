@@ -148,6 +148,6 @@ If you wish to get all tabs with the same label synced, set the `syncTabsWithSam
 
 If you wish to get a button to copy the code within a tab, set the `addCopyToClipboardButton` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L6)).
 
-This will apply only if <pre> tags can be found inside the tabs contents.
+This will apply only if `<pre>` tags can be found inside the tabs contents.
 
 You can override the button HTML using the `copyToClipboardButtonHtml` property.
