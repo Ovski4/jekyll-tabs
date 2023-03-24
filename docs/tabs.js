@@ -1,5 +1,5 @@
 /**
- * Remove all "active" class on li elements that belong to the given ul element
+ * Remove all "active" classes on li elements that belong to the given ul element.
  */
 const removeActiveClasses = function (ulElement) {
     const liElements = ulElement.querySelectorAll('ul > li');
@@ -20,7 +20,7 @@ const removeActiveClasses = function (ulElement) {
  *   <li class="two">2</li>
  * </ul>
  *
- * Then getChildPosition(document.querySelector('.one')) would return 1
+ * Then getChildPosition(document.querySelector('.one')) would return 1.
  */
 const getChildPosition = function (element) {
     var parent = element.parentNode;
