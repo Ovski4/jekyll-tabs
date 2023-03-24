@@ -2,7 +2,7 @@
  * Configure the tabs behavior.
  */
 const jekyllTabsConfiguration = {
-	syncTabsWithSameNames: false,
+    syncTabsWithSameNames: false,
 };
 
 /**
