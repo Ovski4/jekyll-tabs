@@ -2,7 +2,7 @@
  * Configure the tabs behavior.
  */
 const jekyllTabsConfiguration = {
-    syncTabsWithSameNames: false,
+    syncTabsWithSameLabels: false,
 };
 
 /**
@@ -94,7 +94,7 @@ window.addEventListener('load', function () {
 
           handleTabClicked(link);
 
-          if (jekyllTabsConfiguration.syncTabsWithSameNames) {
+          if (jekyllTabsConfiguration.syncTabsWithSameLabels) {
               const linksWithSameName = findElementsContaining('a', link.textContent);
 
               for(let i = 0; i < linksWithSameName.length; i++) {
