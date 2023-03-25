@@ -7,124 +7,135 @@ const jekyllTabsConfiguration = {
     copyToClipboardButtonHtml: '<button>Copy</button>',
 };
 
-/**
- * Remove all "active" classes on li elements that belong to the given ul element.
- */
-const removeActiveClasses = function (ulElement) {
-    const liElements = ulElement.querySelectorAll('ul > li');
+const jekyllTabsModule = (function() {
 
-    Array.prototype.forEach.call(liElements, function(liElement) {
-        liElement.classList.remove('active');
-    });
-}
+    /**
+     * Remove all "active" classes on li elements that belong to the given ul element.
+     */
+    const removeActiveClasses = function (ulElement) {
+        const liElements = ulElement.querySelectorAll('ul > li');
 
-/**
- * Get the element position looking from the perspective of the parent element.
- *
- * Considering the following html:
- *
- * <ul>
- *   <li class="zero">0</li>
- *   <li class="one">1</li>
- *   <li class="two">2</li>
- * </ul>
- *
- * Then getChildPosition(document.querySelector('.one')) would return 1.
- */
-const getChildPosition = function (element) {
-    var parent = element.parentNode;
-    var i = 0;
+        Array.prototype.forEach.call(liElements, function(liElement) {
+            liElement.classList.remove('active');
+        });
+    }
 
-    for (var i = 0; i < parent.children.length; i++) {
-        if (parent.children[i] === element) {
-            return i;
+    /**
+     * Get the element position looking from the perspective of the parent element.
+     *
+     * Considering the following html:
+     *
+     * <ul>
+     *   <li class="zero">0</li>
+     *   <li class="one">1</li>
+     *   <li class="two">2</li>
+     * </ul>
+     *
+     * Then getChildPosition(document.querySelector('.one')) would return 1.
+     */
+    const getChildPosition = function (element) {
+        var parent = element.parentNode;
+        var i = 0;
+
+        for (var i = 0; i < parent.children.length; i++) {
+            if (parent.children[i] === element) {
+                return i;
+            }
         }
+
+        throw new Error('No parent found');
     }
 
-    throw new Error('No parent found');
-}
+    /**
+     * Returns a list of elements of the given tag that contains the given text.
+     */
+    const findElementsContaining = function(elementTag, text) {
+        const elements = document.querySelectorAll(elementTag);
+        const elementsThatContainText = [];
 
-/**
- * Returns a list of elements of the given tag that contains the given text.
- */
-const findElementsContaining = function(elementTag, text) {
-    const elements = document.querySelectorAll(elementTag);
-    const elementsThatContainText = [];
+        for (let i = 0; i < elements.length; i++) {
+            const element = elements[i];
 
-    for (let i = 0; i < elements.length; i++) {
-      const element = elements[i];
-
-      if (element.textContent.includes(text)) {
-        elementsThatContainText.push(element);
-      }
-    }
-
-    return elementsThatContainText;
-}
-
-/**
- * Handle adding or removing active classes on tab list items.
- */
-const handleTabClicked = function(link) {
-    liTab = link.parentNode;
-    ulTab = liTab.parentNode;
-    liPositionInUl = getChildPosition(liTab);
-
-    if (liTab.className.includes('active')) {
-        return;
-    }
-
-    tabContentId = ulTab.getAttribute('data-tab');
-    tabContentElement = document.getElementById(tabContentId);
-
-    // Remove all "active" classes first.
-    removeActiveClasses(ulTab);
-    removeActiveClasses(tabContentElement);
-
-    // Then add back active classes depending on the tab (ul element) that was clicked on.
-    tabContentElement.querySelectorAll('ul > li')[liPositionInUl].classList.add('active');
-    liTab.classList.add('active');
-}
-
-/**
- * Create a javascript element from html markup.
- */
-const createElementFromHtml = function(html) {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-
-    return template.content.firstChild;
-}
-
-/**
- * Copy the given text in the clipboard.
- *
- * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
- */
-const copyToClipboard = function(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(text);
-    } else {
-        // Use the 'out of viewport hidden text area' trick
-        const textArea = document.createElement("textarea");
-        textArea.value = text;
-
-        // Move textarea out of the viewport so it's not visible
-        textArea.style.position = "absolute";
-        textArea.style.left = "-999999px";
-
-        document.body.prepend(textArea);
-        textArea.select();
-
-        try {
-            document.execCommand('copy');
-        } catch (error) {
-            console.error(error);
-        } finally {
-            textArea.remove();
+            if (element.textContent.includes(text)) {
+                elementsThatContainText.push(element);
+            }
         }
+
+        return elementsThatContainText;
+    }
+
+    /**
+     * Handle adding or removing active classes on tab list items.
+     */
+    const handleTabClicked = function(link) {
+        liTab = link.parentNode;
+        ulTab = liTab.parentNode;
+        liPositionInUl = getChildPosition(liTab);
+
+        if (liTab.className.includes('active')) {
+            return;
+        }
+
+        tabContentId = ulTab.getAttribute('data-tab');
+        tabContentElement = document.getElementById(tabContentId);
+
+        // Remove all "active" classes first.
+        removeActiveClasses(ulTab);
+        removeActiveClasses(tabContentElement);
+
+        // Then add back active classes depending on the tab (ul element) that was clicked on.
+        tabContentElement.querySelectorAll('ul > li')[liPositionInUl].classList.add('active');
+        liTab.classList.add('active');
+    }
+
+    /**
+     * Create a javascript element from html markup.
+     */
+    const createElementFromHtml = function(html) {
+        const template = document.createElement('template');
+        template.innerHTML = html.trim();
+
+        return template.content.firstChild;
+    }
+
+    /**
+     * Copy the given text in the clipboard.
+     *
+     * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
+     */
+    const copyToClipboard = function(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text);
+        } else {
+            // Use the 'out of viewport hidden text area' trick
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+
+            // Move textarea out of the viewport so it's not visible
+            textArea.style.position = "absolute";
+            textArea.style.left = "-999999px";
+
+            document.body.prepend(textArea);
+            textArea.select();
+
+            try {
+                document.execCommand('copy');
+            } catch (error) {
+                console.error(error);
+            } finally {
+                textArea.remove();
+            }
+        };
+    }
+
+    return {
+        findElementsContaining,
+        handleTabClicked,
+        createElementFromHtml,
+        copyToClipboard,
     };
-}
+
+})();
 
 window.addEventListener('load', function () {
     const tabLinks = document.querySelectorAll('ul.tab > li > a');
@@ -133,14 +144,14 @@ window.addEventListener('load', function () {
         link.addEventListener('click', function (event) {
             event.preventDefault();
 
-            handleTabClicked(link);
+            jekyllTabsModule.handleTabClicked(link);
 
             if (jekyllTabsConfiguration.syncTabsWithSameLabels) {
-                const linksWithSameName = findElementsContaining('a', link.textContent);
+                const linksWithSameName = jekyllTabsModule.findElementsContaining('a', link.textContent);
 
                 for(let i = 0; i < linksWithSameName.length; i++) {
                     if (linksWithSameName[i] !== link) {
-                        handleTabClicked(linksWithSameName[i]);
+                        jekyllTabsModule.handleTabClicked(linksWithSameName[i]);
                     }
                 }
             }
@@ -153,17 +164,17 @@ window.addEventListener('load', function () {
         for(let i = 0; i < preElements.length; i++) {
             const preElement = preElements[i];
             const preParentNode = preElement.parentNode;
+            const button = jekyllTabsModule.createElementFromHtml(jekyllTabsConfiguration.copyToClipboardButtonHtml);
+
             preParentNode.style.position = 'relative';
-
-            const button = createElementFromHtml(jekyllTabsConfiguration.copyToClipboardButtonHtml);
-            preParentNode.appendChild(button);
-
+            button.style.position = 'absolute';
             button.style.top = '0px';
             button.style.right = '0px';
-            button.style.position = 'absolute';
+
+            preParentNode.appendChild(button);
 
             button.addEventListener('click', function () {
-                copyToClipboard(preElement.innerText);
+                jekyllTabsModule.copyToClipboard(preElement.innerText);
             });
         }
     }
