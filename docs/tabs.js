@@ -128,11 +128,45 @@ const jekyllTabsModule = (function() {
         };
     }
 
+    /**
+     * Open the tab specified by a combination of url anchor and query param 'active_tab'
+     *
+     * For exampe with url http://your-jekyll-website.com/some-page/?active_tab=tablabel2#my_tabs
+     * Then the tabs with name 'my_tabs' would see its tab with sanitized label tablabel2 automatically open.
+     */
+    const activateTabFromUrlQueryParam = function() {
+        const tabsAnchor = window.location.hash.substring(1);
+
+        if (!tabsAnchor) {
+            return;
+        }
+
+        const targetedTabs = document.getElementById(tabsAnchor);
+
+        if (!targetedTabs) {
+            return;
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabIdToActivate = urlParams.get('active_tab');
+
+        if (!tabIdToActivate) {
+            return;
+        }
+
+        const tabLink = targetedTabs.querySelector('li#' + tabIdToActivate + ' > a');
+
+        if (tabLink) {
+            jekyllTabsModule.handleTabClicked(tabLink);
+        }
+    }
+
     return {
         findElementsContaining,
         handleTabClicked,
         createElementFromHtml,
         copyToClipboard,
+        activateTabFromUrlQueryParam,
     };
 
 })();
@@ -179,4 +213,5 @@ window.addEventListener('load', function () {
         }
     }
 
+    jekyllTabsModule.activateTabFromUrlQueryParam();
 });
