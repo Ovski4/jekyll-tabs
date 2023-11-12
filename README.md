@@ -135,18 +135,18 @@ In the following markup:
 * The first word after the `tab` keyword (`data-struct` here) is used to group tabs.
 * All words after will be displayed as the tab label.
 
-Which is why in the above example, we have to groups of tabs: `data-struct` and `log`.
+Which is why in the above example, we have 2 groups of tabs: `data-struct` and `log`.
 
 Additional configuration
 ------------------------
 
-### Sync tabs with similar names
+### Sync tabs with similar labels
 
-If you wish to get all tabs with the same label synced, set the `syncTabsWithSameLabels` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L5)).
+To get all tabs with the same label synced, set the `syncTabsWithSameLabels` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L5)).
 
 ### Add a copy to clipboard button
 
-If you wish to get a button to copy the code within a tab, set the `addCopyToClipboardButton` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L6)).
+To get a button to copy the code within a tab, set the `addCopyToClipboardButton` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L6)).
 
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
