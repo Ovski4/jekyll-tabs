@@ -187,12 +187,12 @@ pputs 'hello'
 
 You can append the string `?active_tab=js#log` to the page URL to open the js tab automatically on page load. To open the ruby tab, you would append `?active_tab=ruby#log`.
 
-In case of more complex labels, spaces and special characters will be replaced with dashes `-`. Considering this markup:
+In case of more complex labels, spaces and special characters will be replaced with dashes (`-`). Considering this markup:
 
 ````
-{% tabs log %}
+{% tabs code %}
 
-{% tab log ruby? or not ruby %}
+{% tab code ruby? or not ruby %}
 ```javascript
 pputs 'hello'
 ```
@@ -201,4 +201,4 @@ pputs 'hello'
 {% endtabs %}
 ````
 
-In this case you would need to append the string `?active_tab=ruby--or-not-ruby#log` to the page URL to open the tab automatically on page load. Inspecting the HTML and looking for the `id` attribute on tabs will give your the right value for the `active_tab` query parameter.
+In this case you would need to append the string `?active_tab=ruby--or-not-ruby#code` to the page URL to open the tab automatically on page load. Inspecting the HTML and looking for the `id` attribute on tabs will give your the right value for the `active_tab` query parameter.
