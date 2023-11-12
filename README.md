@@ -201,4 +201,4 @@ pputs 'hello'
 {% endtabs %}
 ````
 
-In this case you would need to append the string `?active_tab=ruby--or-not-ruby#code` to the page URL to open the tab automatically on page load. Inspecting the HTML and looking for the `id` attribute on tabs will give your the right value for the `active_tab` query parameter.
+In this case you would need to append the string `?active_tab=ruby--or-not-ruby#code` to the page URL to open the tab automatically on page load. Inspecting the HTML and looking for the tabs `id` attribute will help you get the right value for the `active_tab` query parameter.
