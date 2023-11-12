@@ -192,7 +192,7 @@ In case of more complex labels, spaces and special characters will be replaced w
 ````
 {% tabs code %}
 
-{% tab code ruby? or not ruby %}
+{% tab code Ruby? or NOT Ruby %}
 ```javascript
 pputs 'hello'
 ```
