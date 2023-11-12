@@ -129,10 +129,10 @@ const jekyllTabsModule = (function() {
     }
 
     /**
-     * Open the tab specified by a combination of url anchor and query param 'active_tab'
+     * Open the tab specified by a combination of url anchor (#) and query param (?active_tab).
      *
-     * For exampe with url http://your-jekyll-website.com/some-page/?active_tab=tablabel2#my_tabs
-     * Then the tabs with name 'my_tabs' would see its tab with sanitized label tablabel2 automatically open.
+     * For example, considering url http://your-jekyll-website.com/some-page/?active_tab=tab-2#my_tabs
+     * Then the tabs with name 'my_tabs' would see tab with label 'tab 2' automatically open.
      */
     const activateTabFromUrlQueryParam = function() {
         const tabsAnchor = window.location.hash.substring(1);
@@ -156,9 +156,11 @@ const jekyllTabsModule = (function() {
 
         const tabLink = targetedTabs.querySelector('li#' + tabIdToActivate + ' > a');
 
-        if (tabLink) {
-            jekyllTabsModule.handleTabClicked(tabLink);
+        if (!tabLink) {
+            return;
         }
+
+        jekyllTabsModule.handleTabClicked(tabLink);
     }
 
     return {
