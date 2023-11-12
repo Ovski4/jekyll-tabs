@@ -151,3 +151,54 @@ To get a button to copy the code within a tab, set the `addCopyToClipboardButton
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
 You can override the button HTML using the `copyToClipboardButtonHtml` property.
+
+### Open a specific tab on page load
+
+To create links to your pages that will see a specific tab open on page load, you can append a combination of url anchor (#) and query param (?active_tab) to the page URL.
+
+* The anchor is used to target the tab group
+* The query parameter `active_tab` is used to target the tab that will open
+
+Considering this markup:
+
+````
+{% tabs log %}
+
+{% tab log php %}
+```php
+var_dump('hello');
+```
+{% endtab %}
+
+{% tab log js %}
+```javascript
+console.log('hello');
+```
+{% endtab %}
+
+{% tab log ruby %}
+```javascript
+pputs 'hello'
+```
+{% endtab %}
+
+{% endtabs %}
+````
+
+You can append the string `?active_tab=js#log` to the page URL to open the js tab automatically on page load. To open the ruby tab, you would append `?active_tab=ruby#log`.
+
+In case of more complex labels, spaces and special characters will be replaced with dashes `-`. Considering this markup:
+
+````
+{% tabs log %}
+
+{% tab log ruby? or not ruby %}
+```javascript
+pputs 'hello'
+```
+{% endtab %}
+
+{% endtabs %}
+````
+
+In this case you would need to append the string `?active_tab=ruby--or-not-ruby#log` to the page URL to open the tab automatically on page load. Inspecting the HTML and looking for the `id` attribute on tabs will give your the right value for the `active_tab` query parameter.
