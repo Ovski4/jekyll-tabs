@@ -3,6 +3,7 @@
  */
 const jekyllTabsConfiguration = {
     syncTabsWithSameLabels: false,
+    activateTabFromUrl: false,
     addCopyToClipboardButton: false,
     copyToClipboardButtonHtml: '<button>Copy</button>',
 };
@@ -133,7 +134,7 @@ const jekyllTabsModule = (function() {
      * For example, considering url http://your-jekyll-website.com/some-page/?active_tab=tab-2#my_tabs
      * Then the tabs with name 'my_tabs' would see tab with label 'tab 2' automatically open.
      */
-    const activateTabFromUrlQueryParam = function() {
+    const activateTabFromUrl = function() {
         const tabsAnchor = window.location.hash.substring(1);
 
         if (!tabsAnchor) {
@@ -162,12 +163,27 @@ const jekyllTabsModule = (function() {
         jekyllTabsModule.handleTabClicked(tabLink);
     }
 
+    /**
+     * Update the url when clicking on a tab. See method activateTabFromUrl above.
+     */
+    const updateUrlWithActiveTab = function(link) {
+        const liTab = link.parentNode;
+        const ulTab = liTab.parentNode;
+
+        const searchParams = new URLSearchParams(window.location.search);
+        searchParams.set('active_tab', liTab.id);
+
+        const updatedUrl = window.location.pathname + '?' + searchParams.toString() + '#' + ulTab.id;
+        history.replaceState(null, '', updatedUrl);
+    };
+
     return {
         findElementsContaining,
         handleTabClicked,
         createElementFromHtml,
         copyToClipboard,
-        activateTabFromUrlQueryParam,
+        activateTabFromUrl,
+        updateUrlWithActiveTab,
     };
 
 })();
@@ -180,6 +196,10 @@ window.addEventListener('load', function () {
             event.preventDefault();
 
             jekyllTabsModule.handleTabClicked(link);
+
+            if (jekyllTabsConfiguration.activateTabFromUrl) {
+                jekyllTabsModule.updateUrlWithActiveTab(link);
+            }
 
             if (jekyllTabsConfiguration.syncTabsWithSameLabels) {
                 const linksWithSameName = jekyllTabsModule.findElementsContaining('a', link.textContent);
@@ -214,5 +234,7 @@ window.addEventListener('load', function () {
         }
     }
 
-    jekyllTabsModule.activateTabFromUrlQueryParam();
+    if (jekyllTabsConfiguration.activateTabFromUrl) {
+        jekyllTabsModule.activateTabFromUrl();
+    }
 });
