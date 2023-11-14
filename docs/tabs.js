@@ -34,10 +34,9 @@ const jekyllTabsModule = (function() {
      * Then getChildPosition(document.querySelector('.one')) would return 1.
      */
     const getChildPosition = function (element) {
-        var parent = element.parentNode;
-        var i = 0;
+        const parent = element.parentNode;
 
-        for (var i = 0; i < parent.children.length; i++) {
+        for (let i = 0; i < parent.children.length; i++) {
             if (parent.children[i] === element) {
                 return i;
             }
@@ -68,16 +67,16 @@ const jekyllTabsModule = (function() {
      * Handle adding or removing active classes on tab list items.
      */
     const handleTabClicked = function(link) {
-        liTab = link.parentNode;
-        ulTab = liTab.parentNode;
-        liPositionInUl = getChildPosition(liTab);
+        const liTab = link.parentNode;
+        const ulTab = liTab.parentNode;
+        const liPositionInUl = getChildPosition(liTab);
 
         if (liTab.className.includes('active')) {
             return;
         }
 
-        tabContentId = ulTab.getAttribute('data-tab');
-        tabContentElement = document.getElementById(tabContentId);
+        const tabContentId = ulTab.getAttribute('data-tab');
+        const tabContentElement = document.getElementById(tabContentId);
 
         // Remove all "active" classes first.
         removeActiveClasses(ulTab);
