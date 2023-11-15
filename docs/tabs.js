@@ -84,7 +84,7 @@ const jekyllTabsModule = (function() {
         removeActiveClasses(tabContentElement);
 
         // Then add back active classes depending on the tab (ul element) that was clicked on.
-        tabContentElement.querySelectorAll('ul > li')[liPositionInUl].classList.add('active');
+        tabContentElement.querySelectorAll('ul.tab-content > li')[liPositionInUl].classList.add('active');
         liTab.classList.add('active');
     }
 
