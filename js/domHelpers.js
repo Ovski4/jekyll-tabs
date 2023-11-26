@@ -19,8 +19,6 @@ module.exports.getChildPosition = (element) => {
             return i;
         }
     }
-
-    throw new Error('No parent found');
 }
 
 /**
