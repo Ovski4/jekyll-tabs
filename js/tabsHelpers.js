@@ -1,19 +1,9 @@
-import { getChildPosition, findElementsContaining, createElementFromHtml } from './domHelpers';
-
-/**
- * Configure the tabs behavior.
- */
-const jekyllTabsConfiguration = {
-    syncTabsWithSameLabels: false,
-    activateTabFromUrl: false,
-    addCopyToClipboardButton: false,
-    copyToClipboardButtonHtml: '<button>Copy</button>',
-};
+import { getChildPosition } from './domHelpers';
 
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
  */
-const removeActiveClasses = function (ulElement) {
+module.exports.removeActiveClasses = (ulElement) => {
     const liElements = ulElement.querySelectorAll('ul > li');
 
     Array.prototype.forEach.call(liElements, function(liElement) {
@@ -24,7 +14,7 @@ const removeActiveClasses = function (ulElement) {
 /**
  * Handle adding or removing active classes on tab list items.
  */
-const handleTabClicked = function(link) {
+module.exports.handleTabClicked = (link) => {
     const liTab = link.parentNode;
     const ulTab = liTab.parentNode;
     const liPositionInUl = getChildPosition(liTab);
@@ -50,7 +40,7 @@ const handleTabClicked = function(link) {
  *
  * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
  */
-const copyToClipboard = function(text) {
+module.exports.copyToClipboard = (text) => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text);
     } else {
@@ -81,7 +71,7 @@ const copyToClipboard = function(text) {
  * For example, considering url http://your-jekyll-website.com/some-page/?active_tab=tab-2#my_tabs
  * Then the tabs with name 'my_tabs' would see tab with label 'tab 2' automatically open.
  */
-const activateTabFromUrl = function() {
+module.exports.activateTabFromUrl = () => {
     const tabsAnchor = window.location.hash.substring(1);
 
     if (!tabsAnchor) {
@@ -113,7 +103,7 @@ const activateTabFromUrl = function() {
 /**
  * Update the url when clicking on a tab. See method activateTabFromUrl above.
  */
-const updateUrlWithActiveTab = function(link) {
+module.exports.updateUrlWithActiveTab = (link) => {
     const liTab = link.parentNode;
     const ulTab = liTab.parentNode;
 
@@ -122,57 +112,4 @@ const updateUrlWithActiveTab = function(link) {
 
     const updatedUrl = window.location.pathname + '?' + searchParams.toString() + '#' + ulTab.id;
     history.replaceState(null, '', updatedUrl);
-};
-
-export function init() {
-    window.addEventListener('load', function () {
-        const tabLinks = document.querySelectorAll('ul.tab > li > a');
-
-        Array.prototype.forEach.call(tabLinks, function(link) {
-            link.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                handleTabClicked(link);
-
-                if (jekyllTabsConfiguration.activateTabFromUrl) {
-                    updateUrlWithActiveTab(link);
-                }
-
-                if (jekyllTabsConfiguration.syncTabsWithSameLabels) {
-                    const linksWithSameName = findElementsContaining('a', link.textContent);
-
-                    for(let i = 0; i < linksWithSameName.length; i++) {
-                        if (linksWithSameName[i] !== link) {
-                            handleTabClicked(linksWithSameName[i]);
-                        }
-                    }
-                }
-            }, false);
-        });
-
-        if (jekyllTabsConfiguration.addCopyToClipboardButton) {
-            const preElements = document.querySelectorAll('ul.tab-content > li pre');
-
-            for(let i = 0; i < preElements.length; i++) {
-                const preElement = preElements[i];
-                const preParentNode = preElement.parentNode;
-                const button = createElementFromHtml(jekyllTabsConfiguration.copyToClipboardButtonHtml);
-
-                preParentNode.style.position = 'relative';
-                button.style.position = 'absolute';
-                button.style.top = '0px';
-                button.style.right = '0px';
-
-                preParentNode.appendChild(button);
-
-                button.addEventListener('click', function () {
-                    copyToClipboard(preElement.innerText);
-                });
-            }
-        }
-
-        if (jekyllTabsConfiguration.activateTabFromUrl) {
-            activateTabFromUrl();
-        }
-    });
 };

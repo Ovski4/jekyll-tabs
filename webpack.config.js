@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-    entry: './js/jekyllTabsModule.js',
+    entry: './js/index.js',
     output: {
         filename: 'tabs.js',
         path: path.resolve(__dirname, 'docs'),
