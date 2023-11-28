@@ -11,7 +11,7 @@
  *
  * Then getChildPosition(document.querySelector('.one')) would return 1.
  */
-module.exports.getChildPosition = (element) => {
+const getChildPosition = (element) => {
     const parent = element.parentNode;
 
     for (let i = 0; i < parent.children.length; i++) {
@@ -24,7 +24,7 @@ module.exports.getChildPosition = (element) => {
 /**
  * Returns a list of elements of the given tag that contains the given text.
  */
-module.exports.findElementsContaining = (elementTag, text) => {
+const findElementsContaining = (elementTag, text) => {
     const elements = document.querySelectorAll(elementTag);
     const elementsThatContainText = [];
 
@@ -42,9 +42,15 @@ module.exports.findElementsContaining = (elementTag, text) => {
 /**
  * Create a javascript element from html markup.
  */
-module.exports.createElementFromHtml = (html) => {
+const createElementFromHtml = (html) => {
     const template = document.createElement('template');
     template.innerHTML = html.trim();
 
     return template.content.firstChild;
 }
+
+module.exports = {
+    getChildPosition,
+    findElementsContaining,
+    createElementFromHtml,
+};

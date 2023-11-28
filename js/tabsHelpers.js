@@ -1,9 +1,9 @@
-import { getChildPosition } from './domHelpers';
+const { getChildPosition } = require('../js/domHelpers');
 
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
  */
-module.exports.removeActiveClasses = (ulElement) => {
+const removeActiveClasses = (ulElement) => {
     const liElements = ulElement.querySelectorAll('ul > li');
 
     Array.prototype.forEach.call(liElements, function(liElement) {
@@ -14,7 +14,7 @@ module.exports.removeActiveClasses = (ulElement) => {
 /**
  * Handle adding or removing active classes on tab list items.
  */
-module.exports.handleTabClicked = (link) => {
+const handleTabClicked = (link) => {
     const liTab = link.parentNode;
     const ulTab = liTab.parentNode;
     const liPositionInUl = getChildPosition(liTab);
@@ -40,7 +40,7 @@ module.exports.handleTabClicked = (link) => {
  *
  * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
  */
-module.exports.copyToClipboard = (text) => {
+const copyToClipboard = (text) => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text);
     } else {
@@ -71,7 +71,7 @@ module.exports.copyToClipboard = (text) => {
  * For example, considering url http://your-jekyll-website.com/some-page/?active_tab=tab-2#my_tabs
  * Then the tabs with name 'my_tabs' would see tab with label 'tab 2' automatically open.
  */
-module.exports.activateTabFromUrl = () => {
+const activateTabFromUrl = () => {
     const tabsAnchor = window.location.hash.substring(1);
 
     if (!tabsAnchor) {
@@ -103,7 +103,7 @@ module.exports.activateTabFromUrl = () => {
 /**
  * Update the url when clicking on a tab. See method activateTabFromUrl above.
  */
-module.exports.updateUrlWithActiveTab = (link) => {
+const updateUrlWithActiveTab = (link) => {
     const liTab = link.parentNode;
     const ulTab = liTab.parentNode;
 
@@ -113,3 +113,11 @@ module.exports.updateUrlWithActiveTab = (link) => {
     const updatedUrl = window.location.pathname + '?' + searchParams.toString() + '#' + ulTab.id;
     history.replaceState(null, '', updatedUrl);
 };
+
+module.exports = {
+    removeActiveClasses,
+    handleTabClicked,
+    copyToClipboard,
+    activateTabFromUrl,
+    updateUrlWithActiveTab,
+}
