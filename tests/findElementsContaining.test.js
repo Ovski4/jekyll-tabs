@@ -14,6 +14,7 @@ document.body.innerHTML = `
 ;
 
 describe('Get the right elements that contain the given text', () => {
+
     it('Should find all the element containing "My text"', () => {
         const liElements = findElementsContaining('li', 'My text');
 
@@ -30,4 +31,5 @@ describe('Get the right elements that contain the given text', () => {
 
         expect(elementsWithClass4.length).toBe(2);
     });
+
 });
