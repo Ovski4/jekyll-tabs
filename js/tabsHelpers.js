@@ -1,4 +1,4 @@
-const { getChildPosition } = require('../js/domHelpers');
+const { getChildPosition, createElementFromHtml } = require('../js/domHelpers');
 
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
@@ -72,7 +72,7 @@ const copyToClipboard = (text) => {
  * Then the tabs with name 'my_tabs' would see tab with label 'tab 2' automatically open.
  */
 const activateTabFromUrl = () => {
-    const tabsAnchor = window.location.hash.substring(1);
+    const tabsAnchor = window.location.hash?.substring(1);
 
     if (!tabsAnchor) {
         return;
@@ -114,10 +114,32 @@ const updateUrlWithActiveTab = (link) => {
     history.replaceState(null, '', updatedUrl);
 };
 
+const addCopyToClipboardButtons = (buttonHTML) => {
+    const preElements = document.querySelectorAll('ul.tab-content > li pre');
+
+    for(let i = 0; i < preElements.length; i++) {
+        const preElement = preElements[i];
+        const preParentNode = preElement.parentNode;
+        const button = createElementFromHtml(buttonHTML);
+
+        preParentNode.style.position = 'relative';
+        button.style.position = 'absolute';
+        button.style.top = '0px';
+        button.style.right = '0px';
+
+        preParentNode.appendChild(button);
+
+        button.addEventListener('click', function () {
+            copyToClipboard(preElement.innerText);
+        });
+    }
+};
+
 module.exports = {
     removeActiveClasses,
     handleTabClicked,
     copyToClipboard,
+    addCopyToClipboardButtons,
     activateTabFromUrl,
     updateUrlWithActiveTab,
-}
+};

@@ -1,13 +1,9 @@
-import {
-    findElementsContaining,
-    createElementFromHtml
-} from './domHelpers';
-
+import { findElementsContaining } from './domHelpers';
 import {
     activateTabFromUrl,
     updateUrlWithActiveTab,
     handleTabClicked,
-    copyToClipboard
+    addCopyToClipboardButtons,
 } from './tabsHelpers';
 
 /**
@@ -16,7 +12,7 @@ import {
 const jekyllTabsConfiguration = {
     syncTabsWithSameLabels: false,
     activateTabFromUrl: false,
-    addCopyToClipboardButton: false,
+    addCopyToClipboardButtons: false,
     copyToClipboardButtonHtml: '<button>Copy</button>',
 };
 
@@ -46,25 +42,8 @@ export function init() {
             }, false);
         });
 
-        if (jekyllTabsConfiguration.addCopyToClipboardButton) {
-            const preElements = document.querySelectorAll('ul.tab-content > li pre');
-
-            for(let i = 0; i < preElements.length; i++) {
-                const preElement = preElements[i];
-                const preParentNode = preElement.parentNode;
-                const button = createElementFromHtml(jekyllTabsConfiguration.copyToClipboardButtonHtml);
-
-                preParentNode.style.position = 'relative';
-                button.style.position = 'absolute';
-                button.style.top = '0px';
-                button.style.right = '0px';
-
-                preParentNode.appendChild(button);
-
-                button.addEventListener('click', function () {
-                    copyToClipboard(preElement.innerText);
-                });
-            }
+        if (jekyllTabsConfiguration.addCopyToClipboardButtons) {
+            addCopyToClipboardButtons(jekyllTabsConfiguration.copyToClipboardButtonHtml);
         }
 
         if (jekyllTabsConfiguration.activateTabFromUrl) {
