@@ -1,4 +1,4 @@
-const { getChildPosition, createElementFromHtml } = require('../js/domHelpers');
+const { getChildPosition, createElementFromHtml, findElementsContaining } = require('../js/domHelpers');
 
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
@@ -135,6 +135,16 @@ const addCopyToClipboardButtons = (buttonHTML) => {
     }
 };
 
+const syncTabsWithSameLabels = (activeLink) => {
+    const linksWithSameName = findElementsContaining('a', activeLink.textContent);
+
+    for(let i = 0; i < linksWithSameName.length; i++) {
+        if (linksWithSameName[i] !== activeLink) {
+            handleTabClicked(linksWithSameName[i]);
+        }
+    }
+}
+
 module.exports = {
     removeActiveClasses,
     handleTabClicked,
@@ -142,4 +152,5 @@ module.exports = {
     addCopyToClipboardButtons,
     activateTabFromUrl,
     updateUrlWithActiveTab,
+    syncTabsWithSameLabels,
 };

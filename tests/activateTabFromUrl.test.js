@@ -1,4 +1,5 @@
 const { activateTabFromUrl } = require('../js/tabsHelpers');
+const { mockWindowLocationProperties } = require('./testHelper');
 
 document.body.innerHTML = `
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
@@ -38,15 +39,6 @@ document.body.innerHTML = `
 ;
 
 describe('Add or remove active classes depending on the url', () => {
-
-    const mockWindowLocationProperties = (value) => {
-        window = Object.create(window);
-
-        Object.defineProperty(window, 'location', {
-            value,
-            writable: true,
-        });
-    }
 
     it('Should set classes when the js tab is specified in the url', () => {
         mockWindowLocationProperties({

@@ -1,4 +1,5 @@
 const { updateUrlWithActiveTab } = require('../js/tabsHelpers');
+const { mockWindowLocationProperties } = require('./testHelper');
 
 const initialHtml = `
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
@@ -40,22 +41,6 @@ const initialHtml = `
 document.body.innerHTML = initialHtml;
 
 describe('Update the url when clicking on a tab', () => {
-
-    const mockWindowLocationProperties = (value, replaceStateMock) => {
-        window = Object.create(window);
-
-        Object.defineProperty(window, 'location', {
-            value,
-            writable: true,
-        });
-
-        Object.defineProperty(window, 'history', {
-            value: {
-                replaceState: replaceStateMock,
-            },
-            writable: false,
-        });
-    }
 
     it('Should update the url to set the "js" tab as active', () => {
         const replaceStateMock = jest.fn();

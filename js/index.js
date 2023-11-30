@@ -1,22 +1,20 @@
-import { findElementsContaining } from './domHelpers';
-import {
+const {
     activateTabFromUrl,
     updateUrlWithActiveTab,
     handleTabClicked,
     addCopyToClipboardButtons,
-} from './tabsHelpers';
+    syncTabsWithSameLabels,
+} = require('./tabsHelpers');
 
-/**
- * Configure the tabs behavior.
- */
-const jekyllTabsConfiguration = {
-    syncTabsWithSameLabels: false,
-    activateTabFromUrl: false,
-    addCopyToClipboardButtons: false,
-    copyToClipboardButtonHtml: '<button>Copy</button>',
-};
+const init = (overridenConfiguration = {}) => {
+    const defaultConfiguration = {
+        syncTabsWithSameLabels: false,
+        activateTabFromUrl: false,
+        addCopyToClipboardButtons: false,
+        copyToClipboardButtonHtml: '<button>Copy</button>',
+    };
+    const configuration = Object.assign(defaultConfiguration, overridenConfiguration);
 
-export function init() {
     window.addEventListener('load', function () {
         const tabLinks = document.querySelectorAll('ul.tab > li > a');
 
@@ -26,28 +24,26 @@ export function init() {
 
                 handleTabClicked(link);
 
-                if (jekyllTabsConfiguration.activateTabFromUrl) {
+                if (configuration.activateTabFromUrl) {
                     updateUrlWithActiveTab(link);
                 }
 
-                if (jekyllTabsConfiguration.syncTabsWithSameLabels) {
-                    const linksWithSameName = findElementsContaining('a', link.textContent);
-
-                    for(let i = 0; i < linksWithSameName.length; i++) {
-                        if (linksWithSameName[i] !== link) {
-                            handleTabClicked(linksWithSameName[i]);
-                        }
-                    }
+                if (configuration.syncTabsWithSameLabels) {
+                    syncTabsWithSameLabels(link);
                 }
             }, false);
         });
 
-        if (jekyllTabsConfiguration.addCopyToClipboardButtons) {
-            addCopyToClipboardButtons(jekyllTabsConfiguration.copyToClipboardButtonHtml);
+        if (configuration.addCopyToClipboardButtons) {
+            addCopyToClipboardButtons(configuration.copyToClipboardButtonHtml);
         }
 
-        if (jekyllTabsConfiguration.activateTabFromUrl) {
+        if (configuration.activateTabFromUrl) {
             activateTabFromUrl();
         }
     });
 };
+
+module.exports = {
+    init,
+}

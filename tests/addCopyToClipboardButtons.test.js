@@ -1,4 +1,5 @@
 const { addCopyToClipboardButtons } = require('../js/tabsHelpers');
+const { removeAllWhitespaces } = require('./testHelper');
 
 document.body.innerHTML = `
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
@@ -45,10 +46,6 @@ document.body.innerHTML = `
 
 describe('Add copy to clipboard buttons.', () => {
 
-    const removeAllWhitespaces = (string) => {
-        return string.replace(/\s/g, '');
-    }
-
     const expectedHtml = `
         <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
             <li class="active" id="php">
@@ -71,7 +68,7 @@ describe('Add copy to clipboard buttons.', () => {
                         var_dump('hello');
                     </code>
                 </pre>
-                <button style="position: absolute; top: 0px; right: 0px;">
+                <button class="copy-button" style="position: absolute; top: 0px; right: 0px;">
                     Copy me!
                 </button>
             </li>
@@ -81,7 +78,7 @@ describe('Add copy to clipboard buttons.', () => {
                         console.log('hello');
                     </code>
                 </pre>
-                <button style="position: absolute; top: 0px; right: 0px;">
+                <button class="copy-button" style="position: absolute; top: 0px; right: 0px;">
                     Copy me!
                 </button>
             </li>
@@ -91,7 +88,7 @@ describe('Add copy to clipboard buttons.', () => {
                         pputs 'hello'
                     </code>
                 </pre>
-                <button style="position: absolute; top: 0px; right: 0px;">
+                <button class="copy-button" style="position: absolute; top: 0px; right: 0px;">
                     Copy me!
                 </button>
             </li>
@@ -102,9 +99,14 @@ describe('Add copy to clipboard buttons.', () => {
     ;
 
     it('Should add the buttons correctly', () => {
-        addCopyToClipboardButtons('<button>Copy me!</button>');
+        addCopyToClipboardButtons('<button class="copy-button">Copy me!</button>');
 
         expect(removeAllWhitespaces(document.body.innerHTML)).toBe(removeAllWhitespaces(expectedHtml));
+
+        document.execCommand = jest.fn();
+        expect(document.execCommand).not.toHaveBeenCalled();
+        document.querySelectorAll('.copy-button')[0].click();
+        expect(document.execCommand).toHaveBeenCalled();
     });
 
 });
