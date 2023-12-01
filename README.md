@@ -140,13 +140,27 @@ Which is why in the above example, we have 2 groups of tabs: `data-struct` and `
 Additional configuration
 ------------------------
 
+Developers can configure specific tab behaviors by passing an object as an argument to the jekyllTabs module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method.
+
 ### Sync tabs with similar labels
 
-To get all tabs with the same label synced, set the `syncTabsWithSameLabels` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L5)).
+To get all tabs with the same label synced, set the `syncTabsWithSameLabels` property value to **true**.
+
+```
+jekyllTabs.init({
+    syncTabsWithSameLabels: true,
+});
+```
 
 ### Open a specific tab on page load
 
-To link and open a specific tab on page load, set the `activateTabFromUrl` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L6)).
+To link and open a specific tab on page load, set the `activateTabFromUrl` property value to **true**.
+
+```
+jekyllTabs.init({
+    activateTabFromUrl: true,
+});
+```
 
 You will need to append a combination of url anchor (#) and query param (?active_tab) to the page URL.
 
@@ -157,8 +171,15 @@ Clicking on a tab will automatically set the anchor and query parameter in the u
 
 ### Add a copy to clipboard button
 
-To get a button to copy the code within a tab, set the `addCopyToClipboardButton` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L7)).
+To get a button to copy the code within a tab, set the `addCopyToClipboardButton` property value to **true**.
 
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
 You can override the button HTML using the `copyToClipboardButtonHtml` property.
+
+```
+jekyllTabs.init({
+    addCopyToClipboardButton: true,
+    copyToClipboardButtonHtml: '<button class="btn">Copy me!</button>'
+});
+```
