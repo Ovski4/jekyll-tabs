@@ -140,7 +140,16 @@ Which is why in the above example, we have 2 groups of tabs: `data-struct` and `
 Additional configuration
 ------------------------
 
-Developers can configure specific tab behaviors by passing an object as an argument to the jekyllTabs module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method.
+Developers can configure specific tab behaviors by passing an object as an argument to the jekyllTabs module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method. Without passing any object, the default configuration is as follows:
+
+```
+jekyllTabs.init({
+    syncTabsWithSameLabels: false,
+    activateTabFromUrl: false,
+    addCopyToClipboardButtons: false,
+    copyToClipboardButtonHtml: '<button>Copy</button>',
+});
+```
 
 ### Sync tabs with similar labels
 
@@ -175,7 +184,7 @@ To get a button to copy the code within a tab, set the `addCopyToClipboardButton
 
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
-You can override the button HTML using the `copyToClipboardButtonHtml` property.
+You can override the button HTML using the `copyToClipboardButtonHtml` property. The default value is `<button>Copy</button>`.
 
 ```
 jekyllTabs.init({
