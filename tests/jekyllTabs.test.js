@@ -1,4 +1,4 @@
-const jekyllTabs = require('../js/index');
+const jekyllTabs = require('../js/jekyllTabs');
 const { mockWindowLocationProperties } = require('./testHelper');
 
 const initialHtml = `
