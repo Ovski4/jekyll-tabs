@@ -2,9 +2,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "webpack-build" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "webpack-build" ]
+    branches: [ "master" ]
 
 jobs:
   build:
