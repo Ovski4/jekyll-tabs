@@ -7,7 +7,7 @@ This Jekyll plugin provides tags used to add tabs in your content. It is heavily
 
 Additionally, you can:
   * Sync tabs with similar labels.
-  * Have a specific tab opened on page load.
+  * Have a specific tab automatically opened on page load.
   * Add a "copy to clipboard" button for tabs that contain code.
 
 Installation
@@ -145,7 +145,7 @@ Which is why in the above example, we have 2 groups of tabs: `data-struct` and `
 Additional configuration
 ------------------------
 
-Developers can configure specific tab behaviors by passing an object as an argument to the jekyllTabs module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method. Without passing any object, the default configuration is as follows:
+Developers can configure specific tab behaviors by passing an object as an argument to the `jekyllTabs` module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method. Without passing any object, the default configuration is equivalent to the following:
 
 ```
 jekyllTabs.init({
@@ -185,7 +185,7 @@ Clicking on a tab will automatically set the anchor and query parameter in the u
 
 ### Add a copy to clipboard button
 
-To get a button to copy the code within a tab, set the `addCopyToClipboardButtons` property value to **true**.
+To get a button that will copy the code within a tab, set the `addCopyToClipboardButtons` property value to **true**.
 
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
