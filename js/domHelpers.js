@@ -22,21 +22,21 @@ const getChildPosition = (element) => {
 }
 
 /**
- * Returns a list of elements of the given tag that contains the given text.
+ * Returns a list of elements that match the given selector and text content.
  */
-const findElementsContaining = (elementTag, text) => {
-    const elements = document.querySelectorAll(elementTag);
-    const elementsThatContainText = [];
+const findElementsWithTextContent = (selector, text) => {
+    const elementsMatchingSelector = document.querySelectorAll(selector);
+    const elementsWithTextContent = [];
 
-    for (let i = 0; i < elements.length; i++) {
-        const element = elements[i];
+    for (let i = 0; i < elementsMatchingSelector.length; i++) {
+        const element = elementsMatchingSelector[i];
 
-        if (element.textContent.includes(text)) {
-            elementsThatContainText.push(element);
+        if (element.textContent.trim() === text.trim()) {
+            elementsWithTextContent.push(element);
         }
     }
 
-    return elementsThatContainText;
+    return elementsWithTextContent;
 }
 
 /**
@@ -51,6 +51,6 @@ const createElementFromHtml = (html) => {
 
 module.exports = {
     getChildPosition,
-    findElementsContaining,
+    findElementsWithTextContent,
     createElementFromHtml,
 };

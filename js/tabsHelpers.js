@@ -1,4 +1,4 @@
-const { getChildPosition, createElementFromHtml, findElementsContaining } = require('../js/domHelpers');
+const { getChildPosition, createElementFromHtml, findElementsWithTextContent } = require('../js/domHelpers');
 
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
@@ -136,7 +136,7 @@ const addCopyToClipboardButtons = (buttonHTML) => {
 };
 
 const syncTabsWithSameLabels = (activeLink) => {
-    const linksWithSameName = findElementsContaining('a', activeLink.textContent);
+    const linksWithSameName = findElementsWithTextContent('a', activeLink.textContent);
 
     for(let i = 0; i < linksWithSameName.length; i++) {
         if (linksWithSameName[i] !== activeLink) {

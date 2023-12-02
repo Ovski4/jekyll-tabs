@@ -6,20 +6,20 @@ const {
     syncTabsWithSameLabels,
 } = require('./tabsHelpers');
 
-const init = (overridenConfiguration = {}) => {
+const init = (overriddenConfiguration = {}) => {
     const defaultConfiguration = {
         syncTabsWithSameLabels: false,
         activateTabFromUrl: false,
         addCopyToClipboardButtons: false,
         copyToClipboardButtonHtml: '<button>Copy</button>',
     };
-    const configuration = Object.assign(defaultConfiguration, overridenConfiguration);
+    const configuration = Object.assign(defaultConfiguration, overriddenConfiguration);
 
-    window.addEventListener('load', function () {
+    window.addEventListener('load', () => {
         const tabLinks = document.querySelectorAll('ul.tab > li > a');
 
-        Array.prototype.forEach.call(tabLinks, function(link) {
-            link.addEventListener('click', function (event) {
+        Array.prototype.forEach.call(tabLinks, (link) => {
+            link.addEventListener('click', (event) => {
                 event.preventDefault();
 
                 handleTabClicked(link);

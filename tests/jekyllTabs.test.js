@@ -12,7 +12,7 @@ const initialHtml = `
             <a href="#">js</a>
         </li>
         <li id="ruby-log">
-            <a href="#">ruby</a>
+            <a href="#"> ruby </a>
         </li>
     </ul>
     <ul class="tab-content" id="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">

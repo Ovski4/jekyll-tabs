@@ -7,16 +7,24 @@
         "doc": "docs"
     },
     "scripts": {
-        "test": "jest --env=jsdom --coverage",
+        "test": "jest",
+        "posttest": "rm -r coverage",
         "build": "webpack"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Ovski4/jekyll-tabs.git"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
+    "keywords": [
+        "jekyll",
+        "tabs"
+    ],
+    "author": {
+        "name": "Baptiste Bouchereau",
+        "email": "baptiste.bouchereau@gmail.com",
+        "url": "https://baptiste.bouchereau.pro"
+    },
+    "license": "MIT",
     "bugs": {
         "url": "https://github.com/Ovski4/jekyll-tabs/issues"
     },

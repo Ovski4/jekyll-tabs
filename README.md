@@ -2,8 +2,13 @@ Jekyll Tabs
 ===========
 
 This Jekyll plugin provides tags used to add tabs in your content. It is heavily inspired from https://github.com/clustergarage/jekyll-code-tabs.
-  * It works with multiple tab panels on the same page
-  * It does not require a specific javascript framework
+  * It works with multiple tab panels on the same page.
+  * It does not require a specific javascript framework.
+
+Additionally, you can:
+  * Sync tabs with similar labels.
+  * Have a specific tab opened on page load.
+  * Add a "copy to clipboard" button for tabs that contain code.
 
 Installation
 ------------
@@ -180,7 +185,7 @@ Clicking on a tab will automatically set the anchor and query parameter in the u
 
 ### Add a copy to clipboard button
 
-To get a button to copy the code within a tab, set the `addCopyToClipboardButton` property value to **true**.
+To get a button to copy the code within a tab, set the `addCopyToClipboardButtons` property value to **true**.
 
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
@@ -188,7 +193,7 @@ You can override the button HTML using the `copyToClipboardButtonHtml` property.
 
 ```
 jekyllTabs.init({
-    addCopyToClipboardButton: true,
+    addCopyToClipboardButtons: true,
     copyToClipboardButtonHtml: '<button class="btn">Copy me!</button>'
 });
 ```

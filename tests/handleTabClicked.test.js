@@ -2,7 +2,7 @@ const { handleTabClicked } = require('../js/tabsHelpers');
 
 document.body.innerHTML = `
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
-        <li class="active" id="php">
+        <li class="some-class active another-class" id="php">
             <a href="#">php</a>
         </li>
         <li id="js">
@@ -20,7 +20,7 @@ document.body.innerHTML = `
                 </code>
             </pre>
         </li>
-        <li id="js-tab-content">
+        <li id="js-tab-content" class="my-class">
             <pre>
                 <code class="language-javascript">
                     console.log('hello');
@@ -59,10 +59,10 @@ describe('Add or remove active classes on tab list items.', () => {
         expect(document.body.innerHTML).not.toBe(initialHtml);
 
         expect(document.getElementById('js').className).toBe('active');
-        expect(document.getElementById('php').className).toBe('');
+        expect(document.getElementById('php').className).toBe('some-class another-class');
         expect(document.getElementById('ruby').className).toBe('');
 
-        expect(document.getElementById('js-tab-content').className).toBe('active');
+        expect(document.getElementById('js-tab-content').className).toBe('my-class active');
         expect(document.getElementById('php-tab-content').className).toBe('');
         expect(document.getElementById('ruby-tab-content').className).toBe('');
     });
@@ -77,10 +77,10 @@ describe('Add or remove active classes on tab list items.', () => {
         expect(document.body.innerHTML).not.toBe(initialHtml);
 
         expect(document.getElementById('js').className).toBe('');
-        expect(document.getElementById('php').className).toBe('');
+        expect(document.getElementById('php').className).toBe('some-class another-class');
         expect(document.getElementById('ruby').className).toBe('active');
 
-        expect(document.getElementById('js-tab-content').className).toBe('');
+        expect(document.getElementById('js-tab-content').className).toBe('my-class');
         expect(document.getElementById('php-tab-content').className).toBe('');
         expect(document.getElementById('ruby-tab-content').className).toBe('active');
     });
