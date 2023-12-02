@@ -1,6 +1,8 @@
 Jekyll Tabs
 ===========
 
+[![Jest tests](https://github.com/Ovski4/jekyll-tabs/actions/workflows/node.js.yml/badge.svg)](https://github.com/Ovski4/jekyll-tabs/actions/workflows/node.js.yml)
+
 This Jekyll plugin provides tags used to add tabs in your content. It is heavily inspired from https://github.com/clustergarage/jekyll-code-tabs.
   * It works with multiple tab panels on the same page.
   * It does not require a specific javascript framework.
