@@ -38,6 +38,8 @@ document.body.innerHTML = `
         </li>
     </ul>
 
+    Some links (<a href="http://some.site.com">Golang</a> and <a href="http://some-other.site.com">ruby</a>)
+
     <h3 id="second-tabs">Second tabs</h3>
 
     <ul id="hello-world" class="tab" data-tab="9ff55bfd-c8b5-4312-a397-eee3ad2cb372" data-name="hello-world">

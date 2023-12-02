@@ -24,6 +24,11 @@ const handleTabClicked = (link) => {
     }
 
     const tabContentId = ulTab.getAttribute('data-tab');
+
+    if (!tabContentId) {
+        return;
+    }
+
     const tabContentElement = document.getElementById(tabContentId);
 
     // Remove all "active" classes first.
