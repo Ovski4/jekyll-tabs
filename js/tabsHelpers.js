@@ -1,4 +1,9 @@
-const { getChildPosition, createElementFromHtml, findElementsWithTextContent } = require('../js/domHelpers');
+const {
+    getChildPosition,
+    createElementFromHtml,
+    findElementsWithTextContent,
+    setClass
+} = require('../js/domHelpers');
 
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
@@ -68,6 +73,8 @@ const copyToClipboard = (text) => {
             textArea.remove();
         }
     };
+
+    setClass(document.getElementById('snackbar'), 'show', 3000);
 }
 
 /**

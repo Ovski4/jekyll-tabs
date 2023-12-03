@@ -49,8 +49,21 @@ const createElementFromHtml = (html) => {
     return template.content.firstChild;
 }
 
+/**
+ * Set the class className on the given element for the duration of the timeout.
+ */
+const setClass = (element, className, timeout) => {
+    element.className = className;
+
+    // After the timeout in milliseconds, remove the class.
+    setTimeout(() => {
+        element.className = element.className.replace(className, '');
+    }, timeout);
+}
+
 module.exports = {
     getChildPosition,
     findElementsWithTextContent,
     createElementFromHtml,
+    setClass,
 };
