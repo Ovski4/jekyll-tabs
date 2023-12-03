@@ -1,0 +1,38 @@
+{
+    "name": "jekyll-tabs",
+    "version": "1.0.0",
+    "description": "Jekyll Tabs ===========",
+    "private": true,
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "test": "jest",
+        "posttest": "rm -r coverage",
+        "build": "webpack"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Ovski4/jekyll-tabs.git"
+    },
+    "keywords": [
+        "jekyll",
+        "tabs"
+    ],
+    "author": {
+        "name": "Baptiste Bouchereau",
+        "email": "baptiste.bouchereau@gmail.com",
+        "url": "https://baptiste.bouchereau.pro"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Ovski4/jekyll-tabs/issues"
+    },
+    "homepage": "https://github.com/Ovski4/jekyll-tabs#readme",
+    "devDependencies": {
+        "jest": "^29.7.0",
+        "jest-environment-jsdom": "^29.7.0",
+        "webpack": "^5.89.0",
+        "webpack-cli": "^5.1.4"
+    }
+}
