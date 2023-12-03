@@ -1,6 +1,13 @@
 require 'securerandom'
 require 'erb'
 
+def sanitizeName(name)
+    return name
+        .strip                  # remove leading and trailing whitespace
+        .downcase               # lowercase
+        .gsub(/[^0-9a-z]/, '-') # replace all non alphabjetical or non numerical characetrs by a dash
+end
+
 module Jekyll
     module Tabs
         class TabsBlock < Liquid::Block
@@ -9,7 +16,8 @@ module Jekyll
                 if markup == ''
                     raise SyntaxError.new("Block #{block_name} requires 1 attribute")
                 end
-                @name = markup.strip
+                @name = sanitizeName(markup)
+
             end
 
             def render(context)
@@ -33,7 +41,7 @@ module Jekyll
                 if markups.length != 2
                     raise SyntaxError.new("Block #{block_name} requires 2 attributes")
                 end
-                @name = markups[0]
+                @name = sanitizeName(markups[0])
                 @tab = markups[1]
             end
 
