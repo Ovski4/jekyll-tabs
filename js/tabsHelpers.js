@@ -50,7 +50,7 @@ const handleTabClicked = (link) => {
  *
  * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
  */
-const copyToClipboard = (text) => {
+const copyToClipboard = (text, callBack) => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text);
     } else {
@@ -74,10 +74,8 @@ const copyToClipboard = (text) => {
         }
     };
 
-    const toastMessageDiv = document.getElementById('jekyll-tabs-copy-to-clipboard-message');
-
-    if (toastMessageDiv) {
-        setClass(toastMessageDiv, 'show', 3000);
+    if (typeof callBack === 'function') {
+        callBack();
     }
 }
 
@@ -130,7 +128,7 @@ const updateUrlWithActiveTab = (link) => {
     history.replaceState(null, '', updatedUrl);
 };
 
-const addCopyToClipboardButtons = ({ buttonHTML }) => {
+const addCopyToClipboardButtons = ({ buttonHTML, showToastMessageOnCopy, toastDuration }) => {
     const preElements = document.querySelectorAll('ul.tab-content > li pre');
 
     for(let i = 0; i < preElements.length; i++) {
@@ -145,20 +143,34 @@ const addCopyToClipboardButtons = ({ buttonHTML }) => {
 
         preParentNode.appendChild(button);
 
-        button.addEventListener('click', function () {
-            copyToClipboard(preElement.innerText);
+        let copyToClipboardCallBack;
+
+        if (showToastMessageOnCopy) {
+            copyToClipboardCallBack = () => {
+                showToastMessage(toastDuration);
+            };
+        }
+
+        button.addEventListener('click', () => {
+            copyToClipboard(preElement.innerText, copyToClipboardCallBack);
         });
     }
 };
 
-const appendToastMessageHTML = () => {
+const appendToastMessageHTML = (toastMessage) => {
     const toastMessageDiv = document.createElement('div');
 
     toastMessageDiv.id = 'jekyll-tabs-copy-to-clipboard-message';
-    toastMessageDiv.textContent = 'Code copied to clipboard';
+    toastMessageDiv.textContent = toastMessage;
 
     document.getElementsByTagName('body')[0].appendChild(snackbarDiv);
 };
+
+const showToastMessage = (toastDuration) => {
+    if (showToastMessageOnCopy) {
+        setClass(document.getElementById('jekyll-tabs-copy-to-clipboard-message'), 'show', toastDuration);
+    }
+}
 
 const syncTabsWithSameLabels = (activeLink) => {
     const linksWithSameName = findElementsWithTextContent('a', activeLink.textContent);

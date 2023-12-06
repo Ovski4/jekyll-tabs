@@ -12,7 +12,7 @@ const init = (overriddenConfiguration = {}) => {
         syncTabsWithSameLabels: false,
         activateTabFromUrl: false,
         addCopyToClipboardButtons: false,
-        copyToClipoardSettings: {
+        copyToClipboardSettings: {
             buttonHTML: '<button>Copy</button>',
             showToastMessageOnCopy: false,
             toastMessage: 'Code copied to clipboard',
@@ -20,17 +20,14 @@ const init = (overriddenConfiguration = {}) => {
         }
     };
 
-    const configuration = Object.assign(
-        defaultConfiguration,
-        overriddenConfiguration
-    );
-
-    if (typeof overriddenConfiguration.copyToClipoardSettings === 'object') {
-        configuration.copyToClipoardSettings = Object.assign(
-            defaultConfiguration.copyToClipoardSettings,
-            overriddenConfiguration.copyToClipoardSettings
-        );
-    }
+    const configuration = {
+        ...defaultConfiguration,
+        ...overriddenConfiguration,
+        copyToClipboardSettings: {
+            ...defaultConfiguration.copyToClipboardSettings,
+            ...overriddenConfiguration.copyToClipboardSettings,
+        }
+    };
 
     window.addEventListener('load', () => {
         const tabLinks = document.querySelectorAll('ul.tab > li > a');
@@ -52,10 +49,12 @@ const init = (overriddenConfiguration = {}) => {
         });
 
         if (configuration.addCopyToClipboardButtons) {
-            addCopyToClipboardButtons(configuration.copyToClipoardSettings);
+            const settings = configuration.copyToClipboardSettings;
 
-            if (configuration.copyToClipoardSettings.showToastMessageOnCopy) {
-                appendToastMessageHTML(configuration.copyToClipoardSettings);
+            addCopyToClipboardButtons(settings);
+
+            if (settings.showToastMessageOnCopy) {
+                appendToastMessageHTML(settings.toastMessage);
             }
         }
 
