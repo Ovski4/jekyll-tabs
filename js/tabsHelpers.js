@@ -74,7 +74,11 @@ const copyToClipboard = (text) => {
         }
     };
 
-    setClass(document.getElementById('snackbar'), 'show', 3000);
+    const toastMessageDiv = document.getElementById('jekyll-tabs-copy-to-clipboard-message');
+
+    if (toastMessageDiv) {
+        setClass(toastMessageDiv, 'show', 3000);
+    }
 }
 
 /**
@@ -147,6 +151,15 @@ const addCopyToClipboardButtons = (buttonHTML) => {
     }
 };
 
+const appendToastMessageHtml = () => {
+    const toastMessageDiv = document.createElement('div');
+
+    toastMessageDiv.id = 'jekyll-tabs-copy-to-clipboard-message';
+    toastMessageDiv.textContent = 'Code copied to clipboard';
+
+    document.getElementsByTagName('body')[0].appendChild(snackbarDiv);
+};
+
 const syncTabsWithSameLabels = (activeLink) => {
     const linksWithSameName = findElementsWithTextContent('a', activeLink.textContent);
 
@@ -165,4 +178,5 @@ module.exports = {
     activateTabFromUrl,
     updateUrlWithActiveTab,
     syncTabsWithSameLabels,
+    appendToastMessageHtml,
 };

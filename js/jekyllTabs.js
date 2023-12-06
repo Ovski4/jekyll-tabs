@@ -4,6 +4,7 @@ const {
     handleTabClicked,
     addCopyToClipboardButtons,
     syncTabsWithSameLabels,
+    appendToastMessageHtml,
 } = require('./tabsHelpers');
 
 const init = (overriddenConfiguration = {}) => {
@@ -12,7 +13,12 @@ const init = (overriddenConfiguration = {}) => {
         activateTabFromUrl: false,
         addCopyToClipboardButtons: false,
         copyToClipboardButtonHtml: '<button>Copy</button>',
+        showToastMessageOnCopy: false,
     };
+
+    // configure toast message
+    // configure timeout time
+
     const configuration = Object.assign(defaultConfiguration, overriddenConfiguration);
 
     window.addEventListener('load', () => {
@@ -36,6 +42,10 @@ const init = (overriddenConfiguration = {}) => {
 
         if (configuration.addCopyToClipboardButtons) {
             addCopyToClipboardButtons(configuration.copyToClipboardButtonHtml);
+
+            if (configuration.showToastMessageOnCopy) {
+                appendToastMessageHtml(configuration.copyToClipboardButtonHtml);
+            }
         }
 
         if (configuration.activateTabFromUrl) {
