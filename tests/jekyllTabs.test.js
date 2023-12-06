@@ -1,7 +1,7 @@
 const jekyllTabs = require('../js/jekyllTabs');
 const { mockWindowLocationProperties } = require('./testHelper');
 
-const initialHtml = `
+const initialHTML = `
     <h3 id="first-tabs">First tabs</h3>
 
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
@@ -84,7 +84,7 @@ mockWindowLocationProperties(
 describe('Module behaviour can be configured', () => {
 
     it('Should not set any aditional behaviours', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init();
 
@@ -117,7 +117,7 @@ describe('Module behaviour can be configured', () => {
     });
 
     it('Should set behaviour to sync the tabs', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             syncTabsWithSameLabels: true,
@@ -144,7 +144,7 @@ describe('Module behaviour can be configured', () => {
     });
 
     it('Should add copy buttons with the default button markup', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             addCopyToClipboardButtons: true,
@@ -159,11 +159,13 @@ describe('Module behaviour can be configured', () => {
     });
 
     it('Should add copy buttons with the configured button markup', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             addCopyToClipboardButtons: true,
-            copyToClipboardButtonHtml: '<button><span class="btn">Copy me!</span></button>'
+            copyToClipboardSettings: {
+                buttonHTML: '<button><span class="btn">Copy me!</span></button>',
+            },
         });
 
         window.dispatchEvent(new Event('load'));
@@ -175,7 +177,7 @@ describe('Module behaviour can be configured', () => {
     });
 
     it('Should activate the tab from the URL, and update the URL on tab clicks if activateTabFromUrl is enabled', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             activateTabFromUrl: true,

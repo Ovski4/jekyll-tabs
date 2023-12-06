@@ -1,7 +1,7 @@
 const { updateUrlWithActiveTab } = require('../js/tabsHelpers');
 const { mockWindowLocationProperties } = require('./testHelper');
 
-const initialHtml = `
+const initialHTML = `
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
         <li class="active" id="php">
             <a href="#">php</a>
@@ -38,7 +38,7 @@ const initialHtml = `
     </ul>`
 ;
 
-document.body.innerHTML = initialHtml;
+document.body.innerHTML = initialHTML;
 
 describe('Update the url when clicking on a tab', () => {
 

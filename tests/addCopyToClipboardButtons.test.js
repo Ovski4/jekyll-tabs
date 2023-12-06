@@ -46,7 +46,7 @@ document.body.innerHTML = `
 
 describe('Add copy to clipboard buttons.', () => {
 
-    const expectedHtml = `
+    const expectedHTML = `
         <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
             <li class="active" id="php">
                 <a href="#">php</a>
@@ -99,9 +99,9 @@ describe('Add copy to clipboard buttons.', () => {
     ;
 
     it('Should add the buttons correctly', () => {
-        addCopyToClipboardButtons('<button class="copy-button">Copy me!</button>');
+        addCopyToClipboardButtons({ buttonHTML: '<button class="copy-button">Copy me!</button>' });
 
-        expect(removeAllWhitespaces(document.body.innerHTML)).toBe(removeAllWhitespaces(expectedHtml));
+        expect(removeAllWhitespaces(document.body.innerHTML)).toBe(removeAllWhitespaces(expectedHTML));
 
         document.execCommand = jest.fn();
         expect(document.execCommand).not.toHaveBeenCalled();

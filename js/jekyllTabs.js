@@ -4,7 +4,7 @@ const {
     handleTabClicked,
     addCopyToClipboardButtons,
     syncTabsWithSameLabels,
-    appendToastMessageHtml,
+    appendToastMessageHTML,
 } = require('./tabsHelpers');
 
 const init = (overriddenConfiguration = {}) => {
@@ -12,14 +12,25 @@ const init = (overriddenConfiguration = {}) => {
         syncTabsWithSameLabels: false,
         activateTabFromUrl: false,
         addCopyToClipboardButtons: false,
-        copyToClipboardButtonHtml: '<button>Copy</button>',
-        showToastMessageOnCopy: false,
+        copyToClipoardSettings: {
+            buttonHTML: '<button>Copy</button>',
+            showToastMessageOnCopy: false,
+            toastMessage: 'Code copied to clipboard',
+            toastDuration: 3000,
+        }
     };
 
-    // configure toast message
-    // configure timeout time
+    const configuration = Object.assign(
+        defaultConfiguration,
+        overriddenConfiguration
+    );
 
-    const configuration = Object.assign(defaultConfiguration, overriddenConfiguration);
+    if (typeof overriddenConfiguration.copyToClipoardSettings === 'object') {
+        configuration.copyToClipoardSettings = Object.assign(
+            defaultConfiguration.copyToClipoardSettings,
+            overriddenConfiguration.copyToClipoardSettings
+        );
+    }
 
     window.addEventListener('load', () => {
         const tabLinks = document.querySelectorAll('ul.tab > li > a');
@@ -41,10 +52,10 @@ const init = (overriddenConfiguration = {}) => {
         });
 
         if (configuration.addCopyToClipboardButtons) {
-            addCopyToClipboardButtons(configuration.copyToClipboardButtonHtml);
+            addCopyToClipboardButtons(configuration.copyToClipoardSettings);
 
-            if (configuration.showToastMessageOnCopy) {
-                appendToastMessageHtml(configuration.copyToClipboardButtonHtml);
+            if (configuration.copyToClipoardSettings.showToastMessageOnCopy) {
+                appendToastMessageHTML(configuration.copyToClipoardSettings);
             }
         }
 

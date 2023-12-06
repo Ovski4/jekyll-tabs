@@ -1,6 +1,6 @@
 const {
     getChildPosition,
-    createElementFromHtml,
+    createElementFromHTML,
     findElementsWithTextContent,
     setClass
 } = require('../js/domHelpers');
@@ -130,13 +130,13 @@ const updateUrlWithActiveTab = (link) => {
     history.replaceState(null, '', updatedUrl);
 };
 
-const addCopyToClipboardButtons = (buttonHTML) => {
+const addCopyToClipboardButtons = ({ buttonHTML }) => {
     const preElements = document.querySelectorAll('ul.tab-content > li pre');
 
     for(let i = 0; i < preElements.length; i++) {
         const preElement = preElements[i];
         const preParentNode = preElement.parentNode;
-        const button = createElementFromHtml(buttonHTML);
+        const button = createElementFromHTML(buttonHTML);
 
         preParentNode.style.position = 'relative';
         button.style.position = 'absolute';
@@ -151,7 +151,7 @@ const addCopyToClipboardButtons = (buttonHTML) => {
     }
 };
 
-const appendToastMessageHtml = () => {
+const appendToastMessageHTML = () => {
     const toastMessageDiv = document.createElement('div');
 
     toastMessageDiv.id = 'jekyll-tabs-copy-to-clipboard-message';
@@ -178,5 +178,5 @@ module.exports = {
     activateTabFromUrl,
     updateUrlWithActiveTab,
     syncTabsWithSameLabels,
-    appendToastMessageHtml,
+    appendToastMessageHTML,
 };

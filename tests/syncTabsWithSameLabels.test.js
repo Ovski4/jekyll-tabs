@@ -75,11 +75,11 @@ describe('Toggle active classes for all tabs with the same labels', () => {
     it('Should sync the ruby tabs', () => {
         const rubyLink = document.querySelector('ul.tab > li#ruby-log > a');
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         syncTabsWithSameLabels(rubyLink);
 
-        expect(document.body.innerHTML).not.toBe(initialHtml);
+        expect(document.body.innerHTML).not.toBe(initialHTML);
 
         expect(document.getElementById('php-log').className).toBe('');
         expect(document.getElementById('js-log').className).toBe('');
