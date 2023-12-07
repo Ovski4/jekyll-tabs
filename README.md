@@ -223,4 +223,4 @@ jekyllTabs.init({
 });
 ```
 
-Default styles for the toast message are present in the [css file](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.css#L50-70).
+Default styles for the toast message are present in the [css file](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.css#L50-L70).
