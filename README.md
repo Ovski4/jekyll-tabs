@@ -154,7 +154,7 @@ jekyllTabs.init({
     syncTabsWithSameLabels: false,
     activateTabFromUrl: false,
     addCopyToClipboardButtons: false,
-    copyToClipoardSettings: {
+    copyToClipboardSettings: {
         buttonHTML: '<button>Copy</button>',
         showToastMessageOnCopy: false,
         toastMessage: 'Code copied to clipboard',
@@ -196,12 +196,12 @@ To get a button that will copy the code within a tab, set the `addCopyToClipboar
 
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
-You can override the button HTML using the `copyToClipoardSettings.buttonHTML` property. The default value is `<button>Copy</button>`.
+You can override the button HTML using the `copyToClipboardSettings.buttonHTML` property. The default value is `<button>Copy</button>`.
 
 ```
 jekyllTabs.init({
     addCopyToClipboardButtons: true,
-    copyToClipoardSettings: {
+    copyToClipboardSettings: {
         buttonHTML: '<button class="btn">Copy me!</button>',
     }
 });
@@ -209,12 +209,12 @@ jekyllTabs.init({
 
 To give users a visual indicator that the code has been copied, you can display a toast message that will disappear after a short period of time.
 
-Set `showToastMessageOnCopy` to `true` under the `copyToClipoardSettings` property to set it up. You can also update the message text and how long it will be displayed.
+Set `showToastMessageOnCopy` to `true` under the `copyToClipboardSettings` property to set it up. You can also update the message text and how long it will be displayed.
 
 ```
 jekyllTabs.init({
     addCopyToClipboardButtons: true,
-    copyToClipoardSettings: {
+    copyToClipboardSettings: {
         buttonHTML: '<button>Copy</button>',
         showToastMessageOnCopy: true,
         toastMessage: 'Code copied to clipboard',
