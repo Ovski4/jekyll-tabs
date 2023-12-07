@@ -29,39 +29,37 @@ const init = (overriddenConfiguration = {}) => {
         }
     };
 
-    window.addEventListener('load', () => {
-        const tabLinks = document.querySelectorAll('ul.tab > li > a');
+    const tabLinks = document.querySelectorAll('ul.tab > li > a');
 
-        Array.prototype.forEach.call(tabLinks, (link) => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
+    Array.prototype.forEach.call(tabLinks, (link) => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
 
-                handleTabClicked(link);
+            handleTabClicked(link);
 
-                if (configuration.activateTabFromUrl) {
-                    updateUrlWithActiveTab(link);
-                }
-
-                if (configuration.syncTabsWithSameLabels) {
-                    syncTabsWithSameLabels(link);
-                }
-            }, false);
-        });
-
-        if (configuration.addCopyToClipboardButtons) {
-            const settings = configuration.copyToClipboardSettings;
-
-            addCopyToClipboardButtons(settings);
-
-            if (settings.showToastMessageOnCopy) {
-                appendToastMessageHTML(settings.toastMessage);
+            if (configuration.activateTabFromUrl) {
+                updateUrlWithActiveTab(link);
             }
-        }
 
-        if (configuration.activateTabFromUrl) {
-            activateTabFromUrl();
-        }
+            if (configuration.syncTabsWithSameLabels) {
+                syncTabsWithSameLabels(link);
+            }
+        }, false);
     });
+
+    if (configuration.addCopyToClipboardButtons) {
+        const settings = configuration.copyToClipboardSettings;
+
+        addCopyToClipboardButtons(settings);
+
+        if (settings.showToastMessageOnCopy) {
+            appendToastMessageHTML(settings.toastMessage);
+        }
+    }
+
+    if (configuration.activateTabFromUrl) {
+        activateTabFromUrl();
+    }
 };
 
 module.exports = {

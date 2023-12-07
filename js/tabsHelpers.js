@@ -2,7 +2,7 @@ const {
     getChildPosition,
     createElementFromHTML,
     findElementsWithTextContent,
-    setClass
+    addClass
 } = require('../js/domHelpers');
 
 /**
@@ -11,7 +11,7 @@ const {
 const removeActiveClasses = (ulElement) => {
     const liElements = ulElement.querySelectorAll('ul > li');
 
-    Array.prototype.forEach.call(liElements, function(liElement) {
+    Array.prototype.forEach.call(liElements, (liElement) => {
         liElement.classList.remove('active');
     });
 }
@@ -75,6 +75,7 @@ const copyToClipboard = (text, callBack) => {
     };
 
     if (typeof callBack === 'function') {
+
         callBack();
     }
 }
@@ -128,6 +129,9 @@ const updateUrlWithActiveTab = (link) => {
     history.replaceState(null, '', updatedUrl);
 };
 
+/**
+ * Add the "Copy to clipboard" button on the top right hand side of tabs with embedded code (<pre> tags).
+ */
 const addCopyToClipboardButtons = ({ buttonHTML, showToastMessageOnCopy, toastDuration }) => {
     const preElements = document.querySelectorAll('ul.tab-content > li pre');
 
@@ -157,26 +161,33 @@ const addCopyToClipboardButtons = ({ buttonHTML, showToastMessageOnCopy, toastDu
     }
 };
 
+/**
+ * Insert a div that contains the toast message at the end of the <body> tag.
+ */
 const appendToastMessageHTML = (toastMessage) => {
     const toastMessageDiv = document.createElement('div');
 
     toastMessageDiv.id = 'jekyll-tabs-copy-to-clipboard-message';
     toastMessageDiv.textContent = toastMessage;
 
-    document.getElementsByTagName('body')[0].appendChild(snackbarDiv);
+    document.getElementsByTagName('body')[0].appendChild(toastMessageDiv);
 };
 
+/**
+ * Set '.show' class on the div that contains the toast message for the given duration.
+ */
 const showToastMessage = (toastDuration) => {
-    if (showToastMessageOnCopy) {
-        setClass(document.getElementById('jekyll-tabs-copy-to-clipboard-message'), 'show', toastDuration);
-    }
+    addClass(document.getElementById('jekyll-tabs-copy-to-clipboard-message'), 'show', toastDuration);
 }
 
-const syncTabsWithSameLabels = (activeLink) => {
-    const linksWithSameName = findElementsWithTextContent('a', activeLink.textContent);
+/**
+ * Activate tabs that have the same label as the one related to the given link.
+ */
+const syncTabsWithSameLabels = (link) => {
+    const linksWithSameName = findElementsWithTextContent('a', link.textContent);
 
     for(let i = 0; i < linksWithSameName.length; i++) {
-        if (linksWithSameName[i] !== activeLink) {
+        if (linksWithSameName[i] !== link) {
             handleTabClicked(linksWithSameName[i]);
         }
     }

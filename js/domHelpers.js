@@ -50,14 +50,16 @@ const createElementFromHTML = (html) => {
 }
 
 /**
- * Set the class className on the given element for the duration of the timeout.
+ * Add the class on the given element for the duration of the timeout.
  */
-const setClass = (element, className, timeout) => {
-    element.className = className;
+const addClass = (element, addedClass, timeout) => {
+    element.className = element.className
+        ? `${element.className} ${addedClass}`
+        : addedClass;
 
     // After the timeout in milliseconds, remove the class.
     setTimeout(() => {
-        element.className = element.className.replace(className, '');
+        element.className = element.className.replace(addedClass, '').trim();
     }, timeout);
 }
 
@@ -65,5 +67,5 @@ module.exports = {
     getChildPosition,
     findElementsWithTextContent,
     createElementFromHTML,
-    setClass,
+    addClass,
 };
