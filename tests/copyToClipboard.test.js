@@ -51,4 +51,15 @@ describe('Add copy to clipboard buttons.', () => {
         expect(writeTextMock).toHaveBeenCalledWith('Some text being copied');
     });
 
+    it('Should call the callback method after copying', () => {
+        const execCommandMock = jest.fn();
+        document.execCommand = execCommandMock;
+
+        const callback = jest.fn();
+
+        copyToClipboard('Some text being copied', callback);
+
+        expect(callback).toHaveBeenCalled();
+    });
+
 });

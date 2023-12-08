@@ -1,4 +1,9 @@
-const { getChildPosition, createElementFromHtml, findElementsWithTextContent } = require('../js/domHelpers');
+const {
+    getChildPosition,
+    createElementFromHTML,
+    findElementsWithTextContent,
+    addClass
+} = require('../js/domHelpers');
 
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
@@ -6,7 +11,7 @@ const { getChildPosition, createElementFromHtml, findElementsWithTextContent } =
 const removeActiveClasses = (ulElement) => {
     const liElements = ulElement.querySelectorAll('ul > li');
 
-    Array.prototype.forEach.call(liElements, function(liElement) {
+    Array.prototype.forEach.call(liElements, (liElement) => {
         liElement.classList.remove('active');
     });
 }
@@ -45,7 +50,7 @@ const handleTabClicked = (link) => {
  *
  * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
  */
-const copyToClipboard = (text) => {
+const copyToClipboard = (text, callBack) => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text);
     } else {
@@ -68,6 +73,10 @@ const copyToClipboard = (text) => {
             textArea.remove();
         }
     };
+
+    if (typeof callBack === 'function') {
+        callBack();
+    }
 }
 
 /**
@@ -119,13 +128,16 @@ const updateUrlWithActiveTab = (link) => {
     history.replaceState(null, '', updatedUrl);
 };
 
-const addCopyToClipboardButtons = (buttonHTML) => {
+/**
+ * Add the "Copy to clipboard" button on the top right hand side of tabs with embedded code (<pre> tags).
+ */
+const addCopyToClipboardButtons = ({ buttonHTML, showToastMessageOnCopy, toastDuration }) => {
     const preElements = document.querySelectorAll('ul.tab-content > li pre');
 
     for(let i = 0; i < preElements.length; i++) {
         const preElement = preElements[i];
         const preParentNode = preElement.parentNode;
-        const button = createElementFromHtml(buttonHTML);
+        const button = createElementFromHTML(buttonHTML);
 
         preParentNode.style.position = 'relative';
         button.style.position = 'absolute';
@@ -134,17 +146,47 @@ const addCopyToClipboardButtons = (buttonHTML) => {
 
         preParentNode.appendChild(button);
 
-        button.addEventListener('click', function () {
-            copyToClipboard(preElement.innerText);
+        let copyToClipboardCallBack;
+
+        if (showToastMessageOnCopy) {
+            copyToClipboardCallBack = () => {
+                showToastMessage(toastDuration);
+            };
+        }
+
+        button.addEventListener('click', () => {
+            copyToClipboard(preElement.innerText, copyToClipboardCallBack);
         });
     }
 };
 
-const syncTabsWithSameLabels = (activeLink) => {
-    const linksWithSameName = findElementsWithTextContent('a', activeLink.textContent);
+/**
+ * Insert a div that contains the toast message at the end of the <body> tag.
+ */
+const appendToastMessageHTML = (toastMessage) => {
+    const toastMessageDiv = document.createElement('div');
+
+    toastMessageDiv.id = 'jekyll-tabs-copy-to-clipboard-message';
+    toastMessageDiv.textContent = toastMessage;
+
+    document.getElementsByTagName('body')[0].appendChild(toastMessageDiv);
+};
+
+/**
+ * Set '.show' class on the div that contains the toast message for the given duration.
+ */
+const showToastMessage = (toastDuration) => {
+    addClass(document.getElementById('jekyll-tabs-copy-to-clipboard-message'), 'show', toastDuration);
+}
+
+/**
+ * Activate tabs that have the same label as the one related to the given link.
+ */
+const syncTabsWithSameLabels = (link) => {
+    const linksWithSameName = findElementsWithTextContent('a', link.textContent);
 
     for(let i = 0; i < linksWithSameName.length; i++) {
-        if (linksWithSameName[i] !== activeLink) {
+        if (linksWithSameName[i] !== link) {
             handleTabClicked(linksWithSameName[i]);
         }
     }
@@ -158,4 +200,5 @@ module.exports = {
     activateTabFromUrl,
     updateUrlWithActiveTab,
     syncTabsWithSameLabels,
+    appendToastMessageHTML,
 };

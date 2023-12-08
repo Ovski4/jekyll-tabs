@@ -1,7 +1,7 @@
 /**
  * Get the element position looking from the perspective of the parent element.
  *
- * Considering the following html:
+ * Considering the following HTML:
  *
  * <ul>
  *   <li class="zero">0</li>
@@ -40,17 +40,32 @@ const findElementsWithTextContent = (selector, text) => {
 }
 
 /**
- * Create a javascript element from html markup.
+ * Create a javascript element from HTML markup.
  */
-const createElementFromHtml = (html) => {
+const createElementFromHTML = (html) => {
     const template = document.createElement('template');
     template.innerHTML = html.trim();
 
     return template.content.firstChild;
 }
 
+/**
+ * Add the class on the given element for the duration of the timeout.
+ */
+const addClass = (element, addedClass, timeout) => {
+    element.className = element.className
+        ? `${element.className} ${addedClass}`
+        : addedClass;
+
+    // After the timeout in milliseconds, remove the class.
+    setTimeout(() => {
+        element.className = element.className.replace(addedClass, '').trim();
+    }, timeout);
+}
+
 module.exports = {
     getChildPosition,
     findElementsWithTextContent,
-    createElementFromHtml,
+    createElementFromHTML,
+    addClass,
 };

@@ -42,21 +42,21 @@ describe('Add or remove active classes on tab list items.', () => {
     it('Shouldn\'t change anything if the tab is already active', () => {
         const phpLink = document.querySelector('ul.tab > li#php > a');
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         handleTabClicked(phpLink);
 
-        expect(document.body.innerHTML).toBe(initialHtml);
+        expect(document.body.innerHTML).toBe(initialHTML);
     });
 
     it('Should set classes when the js tab is clicked on', () => {
         const jsLink = document.querySelector('ul.tab > li#js > a');
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         handleTabClicked(jsLink);
 
-        expect(document.body.innerHTML).not.toBe(initialHtml);
+        expect(document.body.innerHTML).not.toBe(initialHTML);
 
         expect(document.getElementById('js').className).toBe('active');
         expect(document.getElementById('php').className).toBe('some-class another-class');
@@ -70,11 +70,11 @@ describe('Add or remove active classes on tab list items.', () => {
     it('Should set classes when the ruby tab is clicked on', () => {
         const rubyLink = document.querySelector('ul.tab > li#ruby > a');
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         handleTabClicked(rubyLink);
 
-        expect(document.body.innerHTML).not.toBe(initialHtml);
+        expect(document.body.innerHTML).not.toBe(initialHTML);
 
         expect(document.getElementById('js').className).toBe('');
         expect(document.getElementById('php').className).toBe('some-class another-class');

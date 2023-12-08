@@ -1,7 +1,7 @@
 const jekyllTabs = require('../js/jekyllTabs');
 const { mockWindowLocationProperties } = require('./testHelper');
 
-const initialHtml = `
+const initialHTML = `
     <h3 id="first-tabs">First tabs</h3>
 
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
@@ -84,11 +84,9 @@ mockWindowLocationProperties(
 describe('Module behaviour can be configured', () => {
 
     it('Should not set any aditional behaviours', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init();
-
-        window.dispatchEvent(new Event('load'));
 
         const rubyLink = document.querySelector('ul.tab > li#ruby-log > a');
         rubyLink.click();
@@ -117,13 +115,11 @@ describe('Module behaviour can be configured', () => {
     });
 
     it('Should set behaviour to sync the tabs', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             syncTabsWithSameLabels: true,
         });
-
-        window.dispatchEvent(new Event('load'));
 
         // Should activate tabs on click
         document.querySelector('ul.tab > li#ruby-log > a').click();
@@ -144,13 +140,11 @@ describe('Module behaviour can be configured', () => {
     });
 
     it('Should add copy buttons with the default button markup', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             addCopyToClipboardButtons: true,
         });
-
-        window.dispatchEvent(new Event('load'));
 
         const buttons = document.querySelectorAll('button');
 
@@ -159,14 +153,14 @@ describe('Module behaviour can be configured', () => {
     });
 
     it('Should add copy buttons with the configured button markup', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             addCopyToClipboardButtons: true,
-            copyToClipboardButtonHtml: '<button><span class="btn">Copy me!</span></button>'
+            copyToClipboardSettings: {
+                buttonHTML: '<button><span class="btn">Copy me!</span></button>',
+            },
         });
-
-        window.dispatchEvent(new Event('load'));
 
         const buttons = document.querySelectorAll('.btn');
 
@@ -174,14 +168,76 @@ describe('Module behaviour can be configured', () => {
         expect(buttons[0].textContent).toBe('Copy me!');
     });
 
+    it('Should show the toast message after copying some code', () => {
+        document.body.innerHTML = initialHTML;
+        document.execCommand = jest.fn();
+
+        jekyllTabs.init({
+            addCopyToClipboardButtons: true,
+            copyToClipboardSettings: {
+                showToastMessageOnCopy: true,
+            }
+        });
+
+        const getToastMessageDiv = () => document.getElementById('jekyll-tabs-copy-to-clipboard-message');
+
+        expect(getToastMessageDiv().className).toBe('');
+        expect(getToastMessageDiv().innerHTML).toBe('Code copied to clipboard');
+
+        jest.useFakeTimers();
+
+        document.querySelectorAll('button')[0].click();
+
+        jest.advanceTimersByTime(2500);
+
+        expect(getToastMessageDiv().className).toBe('show');
+
+        jest.advanceTimersByTime(3000);
+
+        expect(getToastMessageDiv().className).toBe('');
+
+        jest.useRealTimers();
+    });
+
+	it('Should show the customized toast message after copying some code', () => {
+        document.body.innerHTML = initialHTML;
+        document.execCommand = jest.fn();
+
+        jekyllTabs.init({
+            addCopyToClipboardButtons: true,
+            copyToClipboardSettings: {
+                showToastMessageOnCopy: true,
+				toastMessage: 'You copied me!',
+            	toastDuration: 1000,
+            }
+        });
+
+        const getToastMessageDiv = () => document.getElementById('jekyll-tabs-copy-to-clipboard-message');
+
+        expect(getToastMessageDiv().className).toBe('');
+		expect(getToastMessageDiv().innerHTML).toBe('You copied me!');
+
+        jest.useFakeTimers();
+
+        document.querySelectorAll('button')[0].click();
+
+        jest.advanceTimersByTime(200);
+
+        expect(getToastMessageDiv().className).toBe('show');
+
+        jest.advanceTimersByTime(1200);
+
+        expect(getToastMessageDiv().className).toBe('');
+
+        jest.useRealTimers();
+    });
+
     it('Should activate the tab from the URL, and update the URL on tab clicks if activateTabFromUrl is enabled', () => {
-        document.body.innerHTML = initialHtml;
+        document.body.innerHTML = initialHTML;
 
         jekyllTabs.init({
             activateTabFromUrl: true,
         });
-
-        window.dispatchEvent(new Event('load'));
 
         expect(document.getElementById('php-log').className).toBe('');
         expect(document.getElementById('js-log').className).toBe('');

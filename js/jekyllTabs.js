@@ -4,6 +4,7 @@ const {
     handleTabClicked,
     addCopyToClipboardButtons,
     syncTabsWithSameLabels,
+    appendToastMessageHTML,
 } = require('./tabsHelpers');
 
 const init = (overriddenConfiguration = {}) => {
@@ -11,37 +12,54 @@ const init = (overriddenConfiguration = {}) => {
         syncTabsWithSameLabels: false,
         activateTabFromUrl: false,
         addCopyToClipboardButtons: false,
-        copyToClipboardButtonHtml: '<button>Copy</button>',
+        copyToClipboardSettings: {
+            buttonHTML: '<button>Copy</button>',
+            showToastMessageOnCopy: false,
+            toastMessage: 'Code copied to clipboard',
+            toastDuration: 3000,
+        }
     };
-    const configuration = Object.assign(defaultConfiguration, overriddenConfiguration);
 
-    window.addEventListener('load', () => {
-        const tabLinks = document.querySelectorAll('ul.tab > li > a');
-
-        Array.prototype.forEach.call(tabLinks, (link) => {
-            link.addEventListener('click', (event) => {
-                event.preventDefault();
-
-                handleTabClicked(link);
-
-                if (configuration.activateTabFromUrl) {
-                    updateUrlWithActiveTab(link);
-                }
-
-                if (configuration.syncTabsWithSameLabels) {
-                    syncTabsWithSameLabels(link);
-                }
-            }, false);
-        });
-
-        if (configuration.addCopyToClipboardButtons) {
-            addCopyToClipboardButtons(configuration.copyToClipboardButtonHtml);
+    const configuration = {
+        ...defaultConfiguration,
+        ...overriddenConfiguration,
+        copyToClipboardSettings: {
+            ...defaultConfiguration.copyToClipboardSettings,
+            ...overriddenConfiguration.copyToClipboardSettings,
         }
+    };
 
-        if (configuration.activateTabFromUrl) {
-            activateTabFromUrl();
-        }
+    const tabLinks = document.querySelectorAll('ul.tab > li > a');
+
+    Array.prototype.forEach.call(tabLinks, (link) => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+
+            handleTabClicked(link);
+
+            if (configuration.activateTabFromUrl) {
+                updateUrlWithActiveTab(link);
+            }
+
+            if (configuration.syncTabsWithSameLabels) {
+                syncTabsWithSameLabels(link);
+            }
+        }, false);
     });
+
+    if (configuration.addCopyToClipboardButtons) {
+        const settings = configuration.copyToClipboardSettings;
+
+        addCopyToClipboardButtons(settings);
+
+        if (settings.showToastMessageOnCopy) {
+            appendToastMessageHTML(settings.toastMessage);
+        }
+    }
+
+    if (configuration.activateTabFromUrl) {
+        activateTabFromUrl();
+    }
 };
 
 module.exports = {

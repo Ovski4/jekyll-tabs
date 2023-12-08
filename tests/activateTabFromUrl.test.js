@@ -49,11 +49,11 @@ describe('Add or remove active classes depending on the url', () => {
 
         window.location.pathname = '?active_tab=js#log'
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         activateTabFromUrl();
 
-        expect(document.body.innerHTML).not.toBe(initialHtml);
+        expect(document.body.innerHTML).not.toBe(initialHTML);
 
         expect(document.getElementById('js').className).toBe('active');
         expect(document.getElementById('php').className).toBe('');
@@ -71,11 +71,11 @@ describe('Add or remove active classes depending on the url', () => {
             hash: '#log',
         });
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         activateTabFromUrl();
 
-        expect(document.body.innerHTML).not.toBe(initialHtml);
+        expect(document.body.innerHTML).not.toBe(initialHTML);
 
         expect(document.getElementById('js').className).toBe('');
         expect(document.getElementById('php').className).toBe('');
@@ -92,11 +92,11 @@ describe('Add or remove active classes depending on the url', () => {
             search: '?active_tab=ruby'
         });
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         activateTabFromUrl();
 
-        expect(document.body.innerHTML).toBe(initialHtml);
+        expect(document.body.innerHTML).toBe(initialHTML);
     });
 
     it('Shouldn\'t set any classes when the hash is referencing an unexisting id', () => {
@@ -106,11 +106,11 @@ describe('Add or remove active classes depending on the url', () => {
             hash: '#missing',
         });
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         activateTabFromUrl();
 
-        expect(document.body.innerHTML).toBe(initialHtml);
+        expect(document.body.innerHTML).toBe(initialHTML);
     });
 
     it('Shouldn\'t set any classes when the active_tab query param is missing from the url', () => {
@@ -120,11 +120,11 @@ describe('Add or remove active classes depending on the url', () => {
             hash: '#log',
         });
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         activateTabFromUrl();
 
-        expect(document.body.innerHTML).toBe(initialHtml);
+        expect(document.body.innerHTML).toBe(initialHTML);
     });
 
     it('Shouldn\'t set any classes when the active_tab query param is referencing an unexisting id', () => {
@@ -134,10 +134,10 @@ describe('Add or remove active classes depending on the url', () => {
             hash: '#log',
         });
 
-        const initialHtml = document.body.innerHTML;
+        const initialHTML = document.body.innerHTML;
 
         activateTabFromUrl();
 
-        expect(document.body.innerHTML).toBe(initialHtml);
+        expect(document.body.innerHTML).toBe(initialHTML);
     });
 });
