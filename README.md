@@ -149,7 +149,7 @@ Additional configuration
 
 Developers can configure specific tab behaviors by passing an object as an argument to the `jekyllTabs` module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method. Without passing any object, the default configuration is equivalent to the following:
 
-```
+```js
 jekyllTabs.init({
     syncTabsWithSameLabels: false,
     activateTabFromUrl: false,
@@ -167,7 +167,7 @@ jekyllTabs.init({
 
 To get all tabs with the same label synced, set the `syncTabsWithSameLabels` property value to **true**.
 
-```
+```js
 jekyllTabs.init({
     syncTabsWithSameLabels: true,
 });
@@ -177,7 +177,7 @@ jekyllTabs.init({
 
 To link and open a specific tab on page load, set the `activateTabFromUrl` property value to **true**.
 
-```
+```js
 jekyllTabs.init({
     activateTabFromUrl: true,
 });
@@ -198,7 +198,7 @@ This will apply only if `<pre>` tags can be found inside the tabs contents.
 
 You can override the button HTML using the `copyToClipboardSettings.buttonHTML` property. The default value is `<button>Copy</button>`.
 
-```
+```js
 jekyllTabs.init({
     addCopyToClipboardButtons: true,
     copyToClipboardSettings: {
@@ -211,7 +211,7 @@ To give users a visual indicator that the code has been copied, you can display 
 
 Set `showToastMessageOnCopy` to `true` under the `copyToClipboardSettings` property to set it up. You can also update the message text as well as how long it will be displayed.
 
-```
+```js
 jekyllTabs.init({
     addCopyToClipboardButtons: true,
     copyToClipboardSettings: {
