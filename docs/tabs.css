@@ -44,7 +44,7 @@
     display: none;
 }
 .tab-content > li.active {
-    display: initial;
+    display: block;
 }
 
 /* The 2 following blocks can be removed if the script is not configured to show the toast message */
