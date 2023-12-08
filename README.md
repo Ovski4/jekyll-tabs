@@ -147,7 +147,7 @@ Which is why in the above example, we have 2 groups of tabs: `data-struct` and `
 Additional configuration
 ------------------------
 
-Developers can configure specific tab behaviors by passing an object as an argument to the `jekyllTabs` module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method. Without passing any object, the default configuration is equivalent to the following:
+Developers can configure specific tab behaviors by passing an object as an argument to the `jekyllTabs` module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L4) method. Without passing any object, the default configuration is equivalent to the following:
 
 ```js
 jekyllTabs.init({
