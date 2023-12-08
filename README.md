@@ -209,7 +209,7 @@ jekyllTabs.init({
 
 To give users a visual indicator that the code has been copied, you can display a toast message that will disappear after a short period of time.
 
-Set `showToastMessageOnCopy` to `true` under the `copyToClipboardSettings` property to set it up. You can also update the message text and how long it will be displayed.
+Set `showToastMessageOnCopy` to `true` under the `copyToClipboardSettings` property to set it up. You can also update the message text as well as how long it will be displayed.
 
 ```
 jekyllTabs.init({
