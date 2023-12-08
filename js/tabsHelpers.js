@@ -75,7 +75,6 @@ const copyToClipboard = (text, callBack) => {
     };
 
     if (typeof callBack === 'function') {
-
         callBack();
     }
 }
