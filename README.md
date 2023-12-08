@@ -1,9 +1,16 @@
 Jekyll Tabs
 ===========
 
+[![Jest tests](https://github.com/Ovski4/jekyll-tabs/actions/workflows/node.js.yml/badge.svg)](https://github.com/Ovski4/jekyll-tabs/actions/workflows/node.js.yml)
+
 This Jekyll plugin provides tags used to add tabs in your content. It is heavily inspired from https://github.com/clustergarage/jekyll-code-tabs.
-  * It works with multiple tab panels on the same page
-  * It does not require a specific javascript framework
+  * It works with multiple tab panels on the same page.
+  * It does not require a specific javascript framework.
+
+Additionally, you can:
+  * Sync tabs with similar labels.
+  * Have a specific tab automatically opened on page load.
+  * Add a "copy to clipboard" button for tabs that contain code.
 
 Installation
 ------------
@@ -140,13 +147,41 @@ Which is why in the above example, we have 2 groups of tabs: `data-struct` and `
 Additional configuration
 ------------------------
 
+Developers can configure specific tab behaviors by passing an object as an argument to the `jekyllTabs` module [init()](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L3) method. Without passing any object, the default configuration is equivalent to the following:
+
+```
+jekyllTabs.init({
+    syncTabsWithSameLabels: false,
+    activateTabFromUrl: false,
+    addCopyToClipboardButtons: false,
+    copyToClipboardSettings: {
+        buttonHTML: '<button>Copy</button>',
+        showToastMessageOnCopy: false,
+        toastMessage: 'Code copied to clipboard',
+        toastDuration: 3000,
+    }
+});
+```
+
 ### Sync tabs with similar labels
 
-To get all tabs with the same label synced, set the `syncTabsWithSameLabels` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L5)).
+To get all tabs with the same label synced, set the `syncTabsWithSameLabels` property value to **true**.
+
+```
+jekyllTabs.init({
+    syncTabsWithSameLabels: true,
+});
+```
 
 ### Open a specific tab on page load
 
-To link and open a specific tab on page load, set the `activateTabFromUrl` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L6)).
+To link and open a specific tab on page load, set the `activateTabFromUrl` property value to **true**.
+
+```
+jekyllTabs.init({
+    activateTabFromUrl: true,
+});
+```
 
 You will need to append a combination of url anchor (#) and query param (?active_tab) to the page URL.
 
@@ -157,8 +192,35 @@ Clicking on a tab will automatically set the anchor and query parameter in the u
 
 ### Add a copy to clipboard button
 
-To get a button to copy the code within a tab, set the `addCopyToClipboardButton` value to **true** in the `jekyllTabsConfiguration` object ([link to related line of code](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.js#L7)).
+To get a button that will copy the code within a tab, set the `addCopyToClipboardButtons` property value to **true**.
 
 This will apply only if `<pre>` tags can be found inside the tabs contents.
 
-You can override the button HTML using the `copyToClipboardButtonHtml` property.
+You can override the button HTML using the `copyToClipboardSettings.buttonHTML` property. The default value is `<button>Copy</button>`.
+
+```
+jekyllTabs.init({
+    addCopyToClipboardButtons: true,
+    copyToClipboardSettings: {
+        buttonHTML: '<button class="btn">Copy me!</button>',
+    }
+});
+```
+
+To give users a visual indicator that the code has been copied, you can display a toast message that will disappear after a short period of time.
+
+Set `showToastMessageOnCopy` to `true` under the `copyToClipboardSettings` property to set it up. You can also update the message text as well as how long it will be displayed.
+
+```
+jekyllTabs.init({
+    addCopyToClipboardButtons: true,
+    copyToClipboardSettings: {
+        buttonHTML: '<button>Copy</button>',
+        showToastMessageOnCopy: true,
+        toastMessage: 'Code copied to clipboard',
+        toastDuration: 3000, // duration in milliseconds
+    }
+});
+```
+
+Default styles for the toast message are present in the [css file](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.css#L50-L70).
