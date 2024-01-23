@@ -11,7 +11,7 @@
  *
  * Then getChildPosition(document.querySelector('.one')) would return 1.
  */
-const getChildPosition = (element) => {
+const getChildPosition = (element: HTMLElement) => {
     const parent = element.parentNode;
 
     for (let i = 0; i < parent.children.length; i++) {
@@ -24,7 +24,7 @@ const getChildPosition = (element) => {
 /**
  * Returns a list of elements that match the given selector and text content.
  */
-const findElementsWithTextContent = (selector, text) => {
+const findElementsWithTextContent = (selector: string, text: string) => {
     const elementsMatchingSelector = document.querySelectorAll(selector);
     const elementsWithTextContent = [];
 
@@ -42,7 +42,7 @@ const findElementsWithTextContent = (selector, text) => {
 /**
  * Create a javascript element from HTML markup.
  */
-const createElementFromHTML = (html) => {
+const createElementFromHTML = (html: string) => {
     const template = document.createElement('template');
     template.innerHTML = html.trim();
 
@@ -52,7 +52,7 @@ const createElementFromHTML = (html) => {
 /**
  * Add the class on the given element for the duration of the timeout.
  */
-const addClass = (element, addedClass, timeout) => {
+const addClass = (element: HTMLElement, addedClass: string, timeout: number) => {
     element.className = element.className
         ? `${element.className} ${addedClass}`
         : addedClass;
@@ -63,7 +63,7 @@ const addClass = (element, addedClass, timeout) => {
     }, timeout);
 }
 
-module.exports = {
+export {
     getChildPosition,
     findElementsWithTextContent,
     createElementFromHTML,
