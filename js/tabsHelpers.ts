@@ -8,10 +8,10 @@ const {
 /**
  * Remove all "active" classes on li elements that belong to the given ul element.
  */
-const removeActiveClasses = (ulElement) => {
+const removeActiveClasses = (ulElement: HTMLUListElement) => {
     const liElements = ulElement.querySelectorAll('ul > li');
 
-    Array.prototype.forEach.call(liElements, (liElement) => {
+    Array.prototype.forEach.call(liElements, (liElement: HTMLLIElement) => {
         liElement.classList.remove('active');
     });
 }
@@ -19,9 +19,9 @@ const removeActiveClasses = (ulElement) => {
 /**
  * Handle adding or removing active classes on tab list items.
  */
-const handleTabClicked = (link) => {
-    const liTab = link.parentNode;
-    const ulTab = liTab.parentNode;
+const handleTabClicked = (link: HTMLAnchorElement) => {
+    const liTab = link.parentNode as HTMLLIElement;
+    const ulTab = liTab.parentNode as HTMLUListElement;
     const liPositionInUl = getChildPosition(liTab);
 
     if (liTab.className.includes('active')) {
@@ -34,7 +34,7 @@ const handleTabClicked = (link) => {
         return;
     }
 
-    const tabContentElement = document.getElementById(tabContentId);
+    const tabContentElement = document.getElementById(tabContentId) as HTMLUListElement;
 
     // Remove all "active" classes first.
     removeActiveClasses(ulTab);
@@ -50,7 +50,7 @@ const handleTabClicked = (link) => {
  *
  * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
  */
-const copyToClipboard = (text, callBack) => {
+const copyToClipboard = (text: string, callBack: Function) => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text);
     } else {
@@ -105,7 +105,7 @@ const activateTabFromUrl = () => {
         return;
     }
 
-    const tabLink = targetedTabs.querySelector('li#' + tabIdToActivate + ' > a');
+    const tabLink = targetedTabs.querySelector('li#' + tabIdToActivate + ' > a') as HTMLAnchorElement;
 
     if (!tabLink) {
         return;
@@ -117,9 +117,9 @@ const activateTabFromUrl = () => {
 /**
  * Update the url when clicking on a tab. See method activateTabFromUrl above.
  */
-const updateUrlWithActiveTab = (link) => {
-    const liTab = link.parentNode;
-    const ulTab = liTab.parentNode;
+const updateUrlWithActiveTab = (link: HTMLAnchorElement) => {
+    const liTab = link.parentNode as HTMLLIElement;
+    const ulTab = liTab.parentNode as HTMLUListElement;
 
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set('active_tab', liTab.id);
@@ -131,12 +131,15 @@ const updateUrlWithActiveTab = (link) => {
 /**
  * Add the "Copy to clipboard" button on the top right hand side of tabs with embedded code (<pre> tags).
  */
-const addCopyToClipboardButtons = ({ buttonHTML, showToastMessageOnCopy, toastDuration }) => {
-    const preElements = document.querySelectorAll('ul.tab-content > li pre');
+const addCopyToClipboardButtons = (
+    { buttonHTML, showToastMessageOnCopy, toastDuration }:
+    { buttonHTML: string, showToastMessageOnCopy: boolean, toastDuration: number }
+) => {
+    const preElements = document.querySelectorAll('ul.tab-content > li pre') as NodeListOf<HTMLPreElement>;
 
     for(let i = 0; i < preElements.length; i++) {
         const preElement = preElements[i];
-        const preParentNode = preElement.parentNode;
+        const preParentNode = preElement.parentNode as HTMLElement;
         const button = createElementFromHTML(buttonHTML);
 
         preParentNode.style.position = 'relative';
@@ -146,7 +149,7 @@ const addCopyToClipboardButtons = ({ buttonHTML, showToastMessageOnCopy, toastDu
 
         preParentNode.appendChild(button);
 
-        let copyToClipboardCallBack;
+        let copyToClipboardCallBack: Function;
 
         if (showToastMessageOnCopy) {
             copyToClipboardCallBack = () => {
@@ -163,7 +166,7 @@ const addCopyToClipboardButtons = ({ buttonHTML, showToastMessageOnCopy, toastDu
 /**
  * Insert a div that contains the toast message at the end of the <body> tag.
  */
-const appendToastMessageHTML = (toastMessage) => {
+const appendToastMessageHTML = (toastMessage: string) => {
     const toastMessageDiv = document.createElement('div');
 
     toastMessageDiv.id = 'jekyll-tabs-copy-to-clipboard-message';
@@ -175,14 +178,14 @@ const appendToastMessageHTML = (toastMessage) => {
 /**
  * Set '.show' class on the div that contains the toast message for the given duration.
  */
-const showToastMessage = (toastDuration) => {
+const showToastMessage = (toastDuration: number) => {
     addClass(document.getElementById('jekyll-tabs-copy-to-clipboard-message'), 'show', toastDuration);
 }
 
 /**
  * Activate tabs that have the same label as the one related to the given link.
  */
-const syncTabsWithSameLabels = (link) => {
+const syncTabsWithSameLabels = (link: HTMLAnchorElement) => {
     const linksWithSameName = findElementsWithTextContent('a', link.textContent);
 
     for(let i = 0; i < linksWithSameName.length; i++) {
@@ -192,7 +195,7 @@ const syncTabsWithSameLabels = (link) => {
     }
 }
 
-module.exports = {
+export {
     removeActiveClasses,
     handleTabClicked,
     copyToClipboard,

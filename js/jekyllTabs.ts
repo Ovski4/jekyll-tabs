@@ -77,6 +77,6 @@ const init = (overriddenConfiguration: any = {}) => {
     }
 };
 
-module.exports = {
+export {
     init,
 }
