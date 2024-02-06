@@ -224,3 +224,31 @@ jekyllTabs.init({
 ```
 
 Default styles for the toast message are present in the [css file](https://github.com/Ovski4/jekyll-tabs/blob/master/docs/tabs.css#L50-L70).
+
+Development
+-----------
+
+### Building the script
+
+Execute:
+
+```bash
+npm run build
+```
+
+The add the following content to the `tabs.js` file.
+
+```js
+window.addEventListener('load', function () {
+    jekyllTabs.init();
+});
+```
+
+### Building and pushing the gem
+
+Update the version number in `jekyll-tabs/version.rb`, then execute:
+
+```bash
+gem build jekyll-tabs.gemspec
+gem push jekyll-tabs-{version_here}.gem
+```
