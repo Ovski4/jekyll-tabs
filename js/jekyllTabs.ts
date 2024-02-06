@@ -7,8 +7,23 @@ const {
     appendToastMessageHTML,
 } = require('./tabsHelpers');
 
-const init = (overriddenConfiguration = {}) => {
-    const defaultConfiguration = {
+interface CopyToClipboardSettings {
+    buttonHTML: string,
+    showToastMessageOnCopy: boolean,
+    toastMessage: string,
+    toastDuration: number,
+}
+
+interface Configuration {
+    syncTabsWithSameLabels: boolean;
+    activateTabFromUrl: boolean;
+    addCopyToClipboardButtons: boolean;
+    copyToClipboardSettings: CopyToClipboardSettings;
+}
+
+const init = (overriddenConfiguration: any = {}) => {
+
+    const defaultConfiguration: Configuration = {
         syncTabsWithSameLabels: false,
         activateTabFromUrl: false,
         addCopyToClipboardButtons: false,
@@ -20,7 +35,7 @@ const init = (overriddenConfiguration = {}) => {
         }
     };
 
-    const configuration = {
+    const configuration: Configuration = {
         ...defaultConfiguration,
         ...overriddenConfiguration,
         copyToClipboardSettings: {
@@ -29,10 +44,10 @@ const init = (overriddenConfiguration = {}) => {
         }
     };
 
-    const tabLinks = document.querySelectorAll('ul.tab > li > a');
+    const tabLinks: NodeList = document.querySelectorAll('ul.tab > li > a');
 
-    Array.prototype.forEach.call(tabLinks, (link) => {
-        link.addEventListener('click', (event) => {
+    Array.prototype.forEach.call(tabLinks, (link: HTMLAnchorElement) => {
+        link.addEventListener('click', (event: MouseEvent) => {
             event.preventDefault();
 
             handleTabClicked(link);
@@ -62,6 +77,6 @@ const init = (overriddenConfiguration = {}) => {
     }
 };
 
-module.exports = {
+export {
     init,
 }
