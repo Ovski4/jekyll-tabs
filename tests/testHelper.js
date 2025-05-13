@@ -1,4 +1,5 @@
 const mockWindowLocationProperties = (value, replaceStateMock = jest.fn()) => {
+    // eslint-disable-next-line no-global-assign
     window = Object.create(window);
 
     Object.defineProperty(window, 'location', {
