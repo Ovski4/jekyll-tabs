@@ -21,7 +21,7 @@ interface Configuration {
     copyToClipboardSettings: CopyToClipboardSettings;
 }
 
-const init = (overriddenConfiguration: any = {}) => {
+const init = (overriddenConfiguration: Partial<Configuration> = {}) => {
 
     const defaultConfiguration: Configuration = {
         syncTabsWithSameLabels: false,

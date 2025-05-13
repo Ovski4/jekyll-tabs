@@ -50,7 +50,7 @@ const handleTabClicked = (link: HTMLAnchorElement) => {
  *
  * See https://stackoverflow.com/questions/51805395/navigator-clipboard-is-undefined
  */
-const copyToClipboard = (text: string, callBack: Function) => {
+const copyToClipboard = (text: string, callBack: () => void) => {
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text);
     } else {
@@ -149,7 +149,7 @@ const addCopyToClipboardButtons = (
 
         preParentNode.appendChild(button);
 
-        let copyToClipboardCallBack: Function;
+        let copyToClipboardCallBack: () => void;
 
         if (showToastMessageOnCopy) {
             copyToClipboardCallBack = () => {
