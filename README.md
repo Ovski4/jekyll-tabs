@@ -252,3 +252,9 @@ Update the version number in `jekyll-tabs/version.rb`, then execute:
 gem build jekyll-tabs.gemspec
 gem push jekyll-tabs-{version_here}.gem
 ```
+
+### Run the tests
+
+```bash
+npm test
+```
