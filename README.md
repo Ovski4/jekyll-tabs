@@ -12,6 +12,24 @@ Additionally, you can:
   * Have a specific tab automatically opened on page load.
   * Add a "copy to clipboard" button for tabs that contain code.
 
+Table of contents
+-----------------
+
+- [Installation](#installation)
+  - [Install the plugin](#install-the-plugin)
+  - [Include the javascript](#include-the-javascript)
+  - [Style the tabs](#style-the-tabs)
+- [Usage](#usage)
+  - [Create the markup](#create-the-markup)
+- [Additional configuration](#additional-configuration)
+  - [Sync tabs with similar labels](#sync-tabs-with-similar-labels)
+  - [Open a specific tab on page load](#open-a-specific-tab-on-page-load)
+  - [Add a copy to clipboard button](#add-a-copy-to-clipboard-button)
+- [Development](#development)
+  - [Building the script](#building-the-script)
+  - [Building and pushing the gem](#building-and-pushing-the-gem)
+  - [Run the tests](#run-the-tests)
+
 Installation
 ------------
 
