@@ -1,5 +1,4 @@
 const { updateUrlWithActiveTab } = require('../js/tabsHelpers');
-const { mockWindowLocationProperties } = require('./testHelper');
 
 const initialHTML = `
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
@@ -43,22 +42,23 @@ document.body.innerHTML = initialHTML;
 describe('Update the url when clicking on a tab', () => {
 
     it('Should update the url to set the "js" tab as active', () => {
-        const replaceStateMock = jest.fn();
-
-        mockWindowLocationProperties(
-            {
+        const historyMock = {
+            replaceState: jest.fn(),
+        };
+        const windowMock = {
+            location: {
                 href: 'http://my-jekyll-website.com',
                 pathname: '/article/my-test',
                 search: '?existing_param=2',
             },
-            replaceStateMock
-        );
+            history: historyMock,
+        };
 
         const jsLink = document.querySelector('ul.tab > li#js > a');
 
-        updateUrlWithActiveTab(jsLink);
+        updateUrlWithActiveTab(jsLink, windowMock, historyMock);
 
-        expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/article/my-test?existing_param=2&active_tab=js#log');
+        expect(historyMock.replaceState).toHaveBeenCalledWith(null, '', '/article/my-test?existing_param=2&active_tab=js#log');
     });
 
 });

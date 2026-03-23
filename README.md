@@ -274,5 +274,5 @@ gem push jekyll-tabs-{version_here}.gem
 ### Run the tests
 
 ```bash
-npm test
+npm run test
 ```
