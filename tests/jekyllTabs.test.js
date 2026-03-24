@@ -1,5 +1,4 @@
 const jekyllTabs = require('../js/jekyllTabs');
-const { mockWindowLocationProperties } = require('./testHelper');
 
 const initialHTML = `
     <h3 id="first-tabs">First tabs</h3>
