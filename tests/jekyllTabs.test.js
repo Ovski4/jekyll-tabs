@@ -279,4 +279,31 @@ describe('Module behaviour can be configured', () => {
 
         expect(historyMock.replaceState).toHaveBeenCalledWith(null, '', '/article/my-test?active_tab=php-log#log');
     });
+
+    it('Should work without providing the window and history objects', () => {
+        document.body.innerHTML = initialHTML;
+
+        jekyllTabs.init({
+            syncTabsWithSameLabels: true,
+            activateTabFromUrl: true,
+            addCopyToClipboardButtons: false,
+        });
+
+        const rubyLink = document.querySelector('ul.tab > li#ruby-log > a');
+        rubyLink.click();
+
+        expect(document.getElementById('php-log').className).toBe('');
+        expect(document.getElementById('js-log').className).toBe('');
+        expect(document.getElementById('ruby-log').className).toBe('active');
+
+        expect(document.getElementById('golang-hello-world').className).toBe('');
+        expect(document.getElementById('ruby-hello-world').className).toBe('active');
+
+        expect(document.getElementById('php-log-tab-content').className).toBe('');
+        expect(document.getElementById('js-log-tab-content').className).toBe('');
+        expect(document.getElementById('ruby-log-tab-content').className).toBe('active');
+
+        expect(document.getElementById('golang-hello-world-tab-content').className).toBe('');
+        expect(document.getElementById('ruby-hello-world-tab-content').className).toBe('active');
+    });
 });
