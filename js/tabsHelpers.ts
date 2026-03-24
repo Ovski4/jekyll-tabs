@@ -85,8 +85,8 @@ const copyToClipboard = (text: string, callBack: () => void) => {
  * For example, considering url http://your-jekyll-website.com/some-page/?active_tab=tab-2#my_tabs
  * Then the tabs with name 'my_tabs' would see tab with label 'tab 2' automatically open.
  */
-const activateTabFromUrl = () => {
-    const tabsAnchor = window.location.hash?.substring(1);
+const activateTabFromUrl = (windowObject: Window) => {
+    const tabsAnchor = windowObject.location.hash?.substring(1);
 
     if (!tabsAnchor) {
         return;
@@ -98,7 +98,7 @@ const activateTabFromUrl = () => {
         return;
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(windowObject.location.search);
     const tabIdToActivate = urlParams.get('active_tab');
 
     if (!tabIdToActivate) {
@@ -117,15 +117,19 @@ const activateTabFromUrl = () => {
 /**
  * Update the url when clicking on a tab. See method activateTabFromUrl above.
  */
-const updateUrlWithActiveTab = (link: HTMLAnchorElement) => {
+const updateUrlWithActiveTab = (
+    link: HTMLAnchorElement,
+    windowObject: Window,
+    historyObject: History,
+) => {
     const liTab = link.parentNode as HTMLLIElement;
     const ulTab = liTab.parentNode as HTMLUListElement;
 
-    const searchParams = new URLSearchParams(window.location.search);
+    const searchParams = new URLSearchParams(windowObject.location.search);
     searchParams.set('active_tab', liTab.id);
 
-    const updatedUrl = window.location.pathname + '?' + searchParams.toString() + '#' + ulTab.id;
-    history.replaceState(null, '', updatedUrl);
+    const updatedUrl = windowObject.location.pathname + '?' + searchParams.toString() + '#' + ulTab.id;
+    historyObject.replaceState(null, '', updatedUrl);
 };
 
 /**

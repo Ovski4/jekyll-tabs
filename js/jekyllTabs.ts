@@ -21,7 +21,11 @@ interface Configuration {
     copyToClipboardSettings: CopyToClipboardSettings;
 }
 
-const init = (overriddenConfiguration: Partial<Configuration> = {}) => {
+const init = (
+    overriddenConfiguration: Partial<Configuration> = {},
+    windowObject: Window = window,
+    historyObject: History = history,
+) => {
 
     const defaultConfiguration: Configuration = {
         syncTabsWithSameLabels: false,
@@ -53,7 +57,7 @@ const init = (overriddenConfiguration: Partial<Configuration> = {}) => {
             handleTabClicked(link);
 
             if (configuration.activateTabFromUrl) {
-                updateUrlWithActiveTab(link);
+                updateUrlWithActiveTab(link, windowObject, historyObject);
             }
 
             if (configuration.syncTabsWithSameLabels) {
@@ -73,7 +77,7 @@ const init = (overriddenConfiguration: Partial<Configuration> = {}) => {
     }
 
     if (configuration.activateTabFromUrl) {
-        activateTabFromUrl();
+        activateTabFromUrl(windowObject);
     }
 };
 

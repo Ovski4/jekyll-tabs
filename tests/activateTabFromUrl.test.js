@@ -1,5 +1,4 @@
 const { activateTabFromUrl } = require('../js/tabsHelpers');
-const { mockWindowLocationProperties } = require('./testHelper');
 
 document.body.innerHTML = `
     <ul id="log" class="tab" data-tab="979a08d4-f68c-4aa6-8799-0fe03b5a0129" data-name="log">
@@ -41,17 +40,18 @@ document.body.innerHTML = `
 describe('Add or remove active classes depending on the url', () => {
 
     it('Should set classes when the js tab is specified in the url', () => {
-        mockWindowLocationProperties({
-            href: 'http://my-jekyll-website.com',
-            search: '?active_tab=js',
-            hash: '#log'
-        });
-
-        window.location.pathname = '?active_tab=js#log'
+        const windowMock = {
+            location: {
+                href: 'http://my-jekyll-website.com',
+                search: '?active_tab=js',
+                hash: '#log',
+                pathname: '?active_tab=js#log',
+            },
+        };
 
         const initialHTML = document.body.innerHTML;
 
-        activateTabFromUrl();
+        activateTabFromUrl(windowMock);
 
         expect(document.body.innerHTML).not.toBe(initialHTML);
 
@@ -65,15 +65,17 @@ describe('Add or remove active classes depending on the url', () => {
     });
 
     it('Should set classes when the ruby tab is specified in the url', () => {
-        mockWindowLocationProperties({
-            href: 'http://my-jekyll-website.com',
-            search: '?active_tab=ruby',
-            hash: '#log',
-        });
+        const windowMock = {
+            location: {
+                href: 'http://my-jekyll-website.com',
+                search: '?active_tab=ruby',
+                hash: '#log',
+            },
+        };
 
         const initialHTML = document.body.innerHTML;
 
-        activateTabFromUrl();
+        activateTabFromUrl(windowMock);
 
         expect(document.body.innerHTML).not.toBe(initialHTML);
 
@@ -87,56 +89,63 @@ describe('Add or remove active classes depending on the url', () => {
     });
 
     it('Shouldn\'t set any classes when the hash is missing from the url', () => {
-        mockWindowLocationProperties({
-            href: 'http://my-jekyll-website.com',
-            search: '?active_tab=ruby'
-        });
+        const windowMock = {
+            location: {
+                href: 'http://my-jekyll-website.com',
+                search: '?active_tab=ruby',
+            },
+        };
 
         const initialHTML = document.body.innerHTML;
 
-        activateTabFromUrl();
+        activateTabFromUrl(windowMock);
 
         expect(document.body.innerHTML).toBe(initialHTML);
     });
 
     it('Shouldn\'t set any classes when the hash is referencing an unexisting id', () => {
-        mockWindowLocationProperties({
-            href: 'http://my-jekyll-website.com',
-            search: '?active_tab=ruby',
-            hash: '#missing',
-        });
+        const windowMock = {
+            location: {
+                href: 'http://my-jekyll-website.com',
+                search: '?active_tab=ruby',
+                hash: '#missing',
+            },
+        };
 
         const initialHTML = document.body.innerHTML;
 
-        activateTabFromUrl();
+        activateTabFromUrl(windowMock);
 
         expect(document.body.innerHTML).toBe(initialHTML);
     });
 
     it('Shouldn\'t set any classes when the active_tab query param is missing from the url', () => {
-        mockWindowLocationProperties({
-            href: 'http://my-jekyll-website.com',
-            search: '?some_param=ruby',
-            hash: '#log',
-        });
+        const windowMock = {
+            location: {
+                href: 'http://my-jekyll-website.com',
+                search: '?some_param=ruby',
+                hash: '#log',
+            },
+        };
 
         const initialHTML = document.body.innerHTML;
 
-        activateTabFromUrl();
+        activateTabFromUrl(windowMock);
 
         expect(document.body.innerHTML).toBe(initialHTML);
     });
 
     it('Shouldn\'t set any classes when the active_tab query param is referencing an unexisting id', () => {
-        mockWindowLocationProperties({
-            href: 'http://my-jekyll-website.com',
-            search: '?active_tab=missing',
-            hash: '#log',
-        });
-
+        const windowMock = {
+            location: {
+                href: 'http://my-jekyll-website.com',
+                search: '?active_tab=missing',
+                hash: '#log',
+            },
+        };
         const initialHTML = document.body.innerHTML;
 
-        activateTabFromUrl();
+        activateTabFromUrl(windowMock);
 
         expect(document.body.innerHTML).toBe(initialHTML);
     });

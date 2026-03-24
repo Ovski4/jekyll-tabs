@@ -1,5 +1,4 @@
 const jekyllTabs = require('../js/jekyllTabs');
-const { mockWindowLocationProperties } = require('./testHelper');
 
 const initialHTML = `
     <h3 id="first-tabs">First tabs</h3>
@@ -69,24 +68,26 @@ const initialHTML = `
     </ul>`
 ;
 
-const replaceStateMock = jest.fn();
-
-mockWindowLocationProperties(
-    {
+const historyMock = {
+    replaceState: jest.fn(),
+};
+const windowMock = {
+    location: {
         href: 'http://my-jekyll-website.com',
         pathname: '/article/my-test',
         search: '?active_tab=ruby-log',
         hash: '#log',
     },
-    replaceStateMock
-);
+    history: historyMock,
+};
+
 
 describe('Module behaviour can be configured', () => {
 
     it('Should not set any aditional behaviours', () => {
         document.body.innerHTML = initialHTML;
 
-        jekyllTabs.init();
+        jekyllTabs.init(windowMock, historyMock);
 
         const rubyLink = document.querySelector('ul.tab > li#ruby-log > a');
         rubyLink.click();
@@ -111,15 +112,17 @@ describe('Module behaviour can be configured', () => {
         expect(buttons.length).toBe(0);
 
         // Url shouldn't be updated
-        expect(replaceStateMock).not.toHaveBeenCalled();
+        expect(historyMock.replaceState).not.toHaveBeenCalled();
     });
 
     it('Should set behaviour to sync the tabs', () => {
         document.body.innerHTML = initialHTML;
 
-        jekyllTabs.init({
-            syncTabsWithSameLabels: true,
-        });
+        jekyllTabs.init(
+            { syncTabsWithSameLabels: true},
+            windowMock,
+            historyMock
+        );
 
         // Should activate tabs on click
         document.querySelector('ul.tab > li#ruby-log > a').click();
@@ -142,9 +145,11 @@ describe('Module behaviour can be configured', () => {
     it('Should add copy buttons with the default button markup', () => {
         document.body.innerHTML = initialHTML;
 
-        jekyllTabs.init({
-            addCopyToClipboardButtons: true,
-        });
+        jekyllTabs.init(
+            { addCopyToClipboardButtons: true},
+            windowMock,
+            historyMock
+        );
 
         const buttons = document.querySelectorAll('button');
 
@@ -155,12 +160,16 @@ describe('Module behaviour can be configured', () => {
     it('Should add copy buttons with the configured button markup', () => {
         document.body.innerHTML = initialHTML;
 
-        jekyllTabs.init({
-            addCopyToClipboardButtons: true,
-            copyToClipboardSettings: {
-                buttonHTML: '<button><span class="btn">Copy me!</span></button>',
+        jekyllTabs.init(
+            {
+                addCopyToClipboardButtons: true,
+                copyToClipboardSettings: {
+                    buttonHTML: '<button><span class="btn">Copy me!</span></button>',
+                },
             },
-        });
+            windowMock,
+            historyMock
+        );
 
         const buttons = document.querySelectorAll('.btn');
 
@@ -172,12 +181,16 @@ describe('Module behaviour can be configured', () => {
         document.body.innerHTML = initialHTML;
         document.execCommand = jest.fn();
 
-        jekyllTabs.init({
-            addCopyToClipboardButtons: true,
-            copyToClipboardSettings: {
-                showToastMessageOnCopy: true,
-            }
-        });
+        jekyllTabs.init(
+            {
+                addCopyToClipboardButtons: true,
+                copyToClipboardSettings: {
+                    showToastMessageOnCopy: true,
+                },
+            },
+            windowMock,
+            historyMock
+        );
 
         const getToastMessageDiv = () => document.getElementById('jekyll-tabs-copy-to-clipboard-message');
 
@@ -203,14 +216,18 @@ describe('Module behaviour can be configured', () => {
         document.body.innerHTML = initialHTML;
         document.execCommand = jest.fn();
 
-        jekyllTabs.init({
-            addCopyToClipboardButtons: true,
-            copyToClipboardSettings: {
-                showToastMessageOnCopy: true,
-				toastMessage: 'You copied me!',
-            	toastDuration: 1000,
-            }
-        });
+        jekyllTabs.init(
+            {
+                addCopyToClipboardButtons: true,
+                copyToClipboardSettings: {
+                    showToastMessageOnCopy: true,
+                    toastMessage: 'You copied me!',
+            	    toastDuration: 1000,
+                }
+            },
+            windowMock,
+            historyMock
+        );
 
         const getToastMessageDiv = () => document.getElementById('jekyll-tabs-copy-to-clipboard-message');
 
@@ -235,9 +252,13 @@ describe('Module behaviour can be configured', () => {
     it('Should activate the tab from the URL, and update the URL on tab clicks if activateTabFromUrl is enabled', () => {
         document.body.innerHTML = initialHTML;
 
-        jekyllTabs.init({
-            activateTabFromUrl: true,
-        });
+        jekyllTabs.init(
+            {
+                activateTabFromUrl: true,
+            },
+            windowMock,
+            historyMock
+        );
 
         expect(document.getElementById('php-log').className).toBe('');
         expect(document.getElementById('js-log').className).toBe('');
@@ -255,6 +276,33 @@ describe('Module behaviour can be configured', () => {
 
         document.querySelector('ul.tab > li#php-log > a').click();
 
-        expect(replaceStateMock).toHaveBeenCalledWith(null, '', '/article/my-test?active_tab=php-log#log');
+        expect(historyMock.replaceState).toHaveBeenCalledWith(null, '', '/article/my-test?active_tab=php-log#log');
+    });
+
+    it('Should work without providing the window and history objects', () => {
+        document.body.innerHTML = initialHTML;
+
+        jekyllTabs.init({
+            syncTabsWithSameLabels: true,
+            activateTabFromUrl: true,
+            addCopyToClipboardButtons: false,
+        });
+
+        const rubyLink = document.querySelector('ul.tab > li#ruby-log > a');
+        rubyLink.click();
+
+        expect(document.getElementById('php-log').className).toBe('');
+        expect(document.getElementById('js-log').className).toBe('');
+        expect(document.getElementById('ruby-log').className).toBe('active');
+
+        expect(document.getElementById('golang-hello-world').className).toBe('');
+        expect(document.getElementById('ruby-hello-world').className).toBe('active');
+
+        expect(document.getElementById('php-log-tab-content').className).toBe('');
+        expect(document.getElementById('js-log-tab-content').className).toBe('');
+        expect(document.getElementById('ruby-log-tab-content').className).toBe('active');
+
+        expect(document.getElementById('golang-hello-world-tab-content').className).toBe('');
+        expect(document.getElementById('ruby-hello-world-tab-content').className).toBe('active');
     });
 });
